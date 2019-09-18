@@ -29,10 +29,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public GameObject[,] GetBoardArray(){
-        return boardArray;
-    }
-
+    //Moves player to horizontal tile according to playerPosition index
     public void UpdatePlayerPosition(int playerPosition)
     {
         GameObject targetTile = boardArray[11, playerPosition];
