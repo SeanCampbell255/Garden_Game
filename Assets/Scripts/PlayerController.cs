@@ -7,13 +7,11 @@ public class PlayerController : MonoBehaviour{
     public GameController gameController;
 
     //Private Variables
-    private GameObject[,] boardArray;
-
     private int playerPosition = 3;
 
     //Instantiation
     private void Start(){
-        boardArray = gameController.GetBoardArray();
+
     }
 
     void Update(){
@@ -25,12 +23,8 @@ public class PlayerController : MonoBehaviour{
         }else if (moveRight && playerPosition < 6){
             playerPosition++;
         }
-        UpdatePlayerPosition();
+        gameController.UpdatePlayerPosition(playerPosition);
     }
 
-    void UpdatePlayerPosition(){
-        GameObject targetTile = boardArray[11, playerPosition];
-
-        this.transform.SetParent(targetTile.transform, false);
-    }
+    
 }

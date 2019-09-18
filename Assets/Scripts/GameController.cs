@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     //Public Variables
     public GameObject board;
+    public GameObject player;
 
     //Private Variables
     private int boardWidth = 7;
@@ -30,5 +31,12 @@ public class GameController : MonoBehaviour
 
     public GameObject[,] GetBoardArray(){
         return boardArray;
+    }
+
+    public void UpdatePlayerPosition(int playerPosition)
+    {
+        GameObject targetTile = boardArray[11, playerPosition];
+
+        player.transform.SetParent(targetTile.transform, false);
     }
 }
