@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     //Public Variables
     public GameObject board;
     public GameObject player;
+    public GameObject piece;
 
     //Private Variables
     private int boardWidth = 7;
@@ -47,6 +48,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /*
     public GameObject[] GetAdjacencies(int xPosition, int yPosition){
         GameObject[] adjacencyArray = new GameObject[4];
 
@@ -83,4 +85,5 @@ public class GameController : MonoBehaviour
         }
         return adjacencyArray;
     }
+    */
 }
