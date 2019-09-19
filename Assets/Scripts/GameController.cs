@@ -11,32 +11,34 @@ public class GameController : MonoBehaviour
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
+    private int basketSize;
+
     private GameObject[,] boardArray = new GameObject[12, 7];
 
 
     // Instantiate & Preprocess
-    void Start()
-    {
+    void Start(){
         GameObject currentRow;
+
         //Creates an array filled with tile game objects
-        for(int i = 0; i < boardHeight; i++)
-        {
+        for(int i = 0; i < boardHeight; i++){
             currentRow = board.transform.GetChild(i).gameObject;
-            for(int j = 0; j < boardWidth; j++)
-            {
+
+            for(int j = 0; j < boardWidth; j++){
                 boardArray[i, j] = currentRow.transform.GetChild(j).gameObject;
             }
         }
     }
 
-    public GameObject[,] GetBoardArray(){
-        return boardArray;
-    }
-
-    public void UpdatePlayerPosition(int playerPosition)
-    {
+    //Moves player to playerPosition and childs it to the tile at position
+    public void UpdatePlayerPosition(int playerPosition){
         GameObject targetTile = boardArray[11, playerPosition];
 
         player.transform.SetParent(targetTile.transform, false);
+    }
+
+    //Grabs all pieces of same type adjacent to lowest piece in column
+    public void Grab(int playerPosition){
+
     }
 }

@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour{
 
     //Private Variables
     private int playerPosition = 3;
+    private bool moveRight;
+    private bool moveLeft;
+    private bool grab;
+    private bool place;
 
     //Instantiation
     private void Start(){
@@ -15,9 +19,16 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Update(){
-        bool moveLeft = Input.GetKeyDown(KeyCode.LeftArrow);
-        bool moveRight = Input.GetKeyDown(KeyCode.RightArrow);
+        moveLeft = Input.GetKeyDown(KeyCode.LeftArrow);
+        moveRight = Input.GetKeyDown(KeyCode.RightArrow);
+        grab = Input.GetKeyDown(KeyCode.DownArrow);
+        place = Input.GetKeyDown(KeyCode.UpArrow);
 
+        if (grab){
+            gameController.Grab(playerPosition);
+        }
+
+        //Detects and applies player movement
         if (moveLeft && playerPosition > 0){
             playerPosition--;
         }else if (moveRight && playerPosition < 6){
