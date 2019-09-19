@@ -50,7 +50,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    /*
+    
     public GameObject[] GetAdjacencies(int xPosition, int yPosition){
         GameObject[] adjacencyArray = new GameObject[4];
 
@@ -87,7 +87,6 @@ public class GameController : MonoBehaviour
         }
         return adjacencyArray;
     }
-    */
 
     void InitializePieces(){
         Instantiate(piece, boardArray[0, 0].transform, false);

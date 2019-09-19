@@ -19,7 +19,7 @@ public class PieceController : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake(){
-        //adjacencyArray = gameController.GetAdjacencies(xPosition, yPosition);
+        adjacencyArray = gameController.GetAdjacencies(xPosition, yPosition);
     }
 
     // Update is called once per frame
