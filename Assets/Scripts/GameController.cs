@@ -7,11 +7,15 @@ public class GameController : MonoBehaviour
     //Public Variables
     public GameObject board;
     public GameObject player;
+    public GameObject piece;
+
+    public enum PieceType { Trash, Seed, Sprout, Bud, Flower };
 
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
     private int basketSize;
+    
 
     private GameObject[,] boardArray = new GameObject[12, 7];
 

@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PieceController : MonoBehaviour
 {
-    public enum PieceType {Trash, Seed, Sprout, Bud, Flower};
+    public GameController gameController;
 
-    private PieceType type;
+    public GameController.PieceType type;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start(){
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -19,8 +18,9 @@ public class PieceController : MonoBehaviour
     {
         
     }
-
-    public void SetType(PieceType type){
+   
+    public void SetType(GameController.PieceType type){
         this.type = type;
     }
+    
 }
