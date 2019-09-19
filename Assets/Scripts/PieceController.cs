@@ -28,7 +28,7 @@ public class PieceController : MonoBehaviour
     }
 
     //Gets the position this piece is in
-    void GetOwnPosition(int x, int y){
+    void SetPosition(int x, int y){
         xPosition = x;
         yPosition = y;
     }

@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour
                 boardArray[j, i] = currentRow.transform.GetChild(j).gameObject;
             }
         }
+
+        InitializePieces();
     }
 
     //Moves player to horizontal tile according to playerPosition index
@@ -86,4 +88,12 @@ public class GameController : MonoBehaviour
         return adjacencyArray;
     }
     */
+
+    void InitializePieces(){
+        Instantiate(piece, boardArray[0, 0].transform, false);
+        Instantiate(piece, boardArray[2, 0].transform, false);
+        Instantiate(piece, boardArray[3, 0].transform, false);
+        Instantiate(piece, boardArray[4, 0].transform, false);
+        Instantiate(piece, boardArray[4, 1].transform, false);
+    }
 }
