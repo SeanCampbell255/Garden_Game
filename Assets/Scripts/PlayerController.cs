@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour{
         //Gets input from arrow keys
         bool moveLeft = Input.GetKeyDown(KeyCode.LeftArrow);
         bool moveRight = Input.GetKeyDown(KeyCode.RightArrow);
+        bool grab = Input.GetKeyDown(KeyCode.DownArrow);
+        bool place = Input.GetKeyDown(KeyCode.UpArrow);
 
         //Updates player position var & tells GameController to update the actual position
         if (moveLeft && playerPosition > 0){
@@ -26,5 +28,9 @@ public class PlayerController : MonoBehaviour{
             playerPosition++;
         }
         gameController.UpdatePlayerPosition(playerPosition);
+
+        if (grab){
+            gameController.grabColumn(playerPosition);
+        }
     }
 }
