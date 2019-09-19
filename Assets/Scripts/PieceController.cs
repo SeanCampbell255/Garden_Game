@@ -22,5 +22,9 @@ public class PieceController : MonoBehaviour
     public void SetType(GameController.PieceType type){
         this.type = type;
     }
+
+    public GameController.PieceType GetType(){
+        return type;
+    }
     
 }
