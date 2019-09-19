@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1064441864}
+  player: {fileID: 2041965772}
 --- !u!4 &45008246
 Transform:
   m_ObjectHideFlags: 0
@@ -6600,6 +6601,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93de1c36b0283394caf35aedb171053d, type: 3}
+--- !u!1 &2041965772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 454731682344488564, guid: d862a52f9b1becc46a1704d4cebab391,
+    type: 3}
+  m_PrefabInstance: {fileID: 5447280879473021409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2057962225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3085828738032137486, guid: 93de1c36b0283394caf35aedb171053d,
