@@ -24,8 +24,11 @@ public class PlayerController : MonoBehaviour{
         grab = Input.GetKeyDown(KeyCode.DownArrow);
         place = Input.GetKeyDown(KeyCode.UpArrow);
 
+        //Detects a grab or place, makes it so you can't do both same frame
         if (grab){
             gameController.Grab(playerPosition);
+        }else if (place){
+            gameController.Place(playerPosition);
         }
 
         //Detects and applies player movement

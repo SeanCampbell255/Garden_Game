@@ -8,8 +8,7 @@ public class PieceController : MonoBehaviour
 
     public GameController.PieceType type;
 
-    // Start is called before the first frame update
-    void Start(){
+    void Awake(){
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
