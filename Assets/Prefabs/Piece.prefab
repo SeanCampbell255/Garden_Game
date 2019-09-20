@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1865284874534520467}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 33, y: 33, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -92,3 +92,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf8d5e92be58ca42ab5d34d77fb7ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  type: 0
+  trashSprites:
+  - {fileID: 21300000, guid: f4ef7fd0ca1d2d143abbbb4657cd05ab, type: 3}
+  - {fileID: 21300000, guid: a59db3b1552589843b9bc45ba8d5fbd0, type: 3}
+  - {fileID: 21300000, guid: e34f933a51bac20479e16ff67334cbb2, type: 3}
+  - {fileID: 21300000, guid: ea72721510ced4449be5c8231364f96a, type: 3}
+  seedSprite: {fileID: 21300000, guid: 0fbd2c1ea1dc92644a8a42b714073201, type: 3}
+  sproutSprite: {fileID: 21300000, guid: cd83b63faad61cd4b8d66446171f2b29, type: 3}
+  budSprite: {fileID: 21300000, guid: 6b81d24cb2f20214dae1ce081e8a0ed7, type: 3}
+  flowerSprite: {fileID: 21300000, guid: f1d67ddb01389b548a5690a7b9ba1b86, type: 3}
