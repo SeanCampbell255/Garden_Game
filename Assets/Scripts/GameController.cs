@@ -46,11 +46,13 @@ public class GameController : MonoBehaviour
 
     //Grabs all pieces of same type adjacent to lowest piece in column
     public void Grab(int playerPosition){
+        //Access each tile from bottom up
         for(int i = 11; i >=0; i--){
             GameObject currentTile = boardArray[playerPosition, i];
             int childCount = currentTile.transform.childCount;
             PieceController currentPiece = null;
 
+            //Gets the child piece, the first condition is for when it's on the same tile as player
             if(childCount > 1){
                 currentPiece = currentTile.transform.GetChild(1).gameObject.GetComponent<PieceController>();
             }else if(childCount > 0){
@@ -60,7 +62,8 @@ public class GameController : MonoBehaviour
                     currentPiece = currentChild.GetComponent<PieceController>();
                 }
             }
-
+            //Update basketSize and basketType based on pickups and state of basketType
+            //This discriminates between pieces of the current basketType and other types
             if (currentPiece != null){
                 PieceType currentPieceType = currentPiece.GetType();
                 if (basketSize == 0){
