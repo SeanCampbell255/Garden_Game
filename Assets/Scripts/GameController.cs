@@ -128,14 +128,9 @@ public class GameController : MonoBehaviour
 
     private bool checkMatch(GameObject currentTile, int[] currentPosition){
         //Checks if there's a piece on currentTile and sets it to currentPiece if there is
-        GameObject currentPiece;
-        if(currentTile.transform.childCount > 1) {
-            currentPiece = currentTile.transform.GetChild(1).gameObject;
-        }else if(currentTile.transform.childCount > 0) {
-            currentPiece = currentTile.transform.GetChild(0).gameObject;
-        }else{
+        GameObject currentPiece = getPiece(currentTile);
+        if (currentPiece == null)
             return false;
-        }
 
         if(basketType == PieceType.None){
             return false;
@@ -154,6 +149,21 @@ public class GameController : MonoBehaviour
 
     private void checkAdjacencies(GameObject currentTile, int[] currentPosition){
         
+    }
+
+    private GameObject getPiece(GameObject currentTile){
+        //With the rules we currently have and anticipate, when there's more than 1 child it means the player and piece are on the same tile
+        if(currentTile.transform.childCount > 1){
+            return currentTile.transform.GetChild(1).gameObject;
+        }else if(currentTile.transform.childCount > 0){
+            if(currentTile.transform.GetChild(0).tag == "Player"){
+                return null;
+            }else{
+                return currentTile.transform.GetChild(0).gameObject;
+            }
+        }else{
+            return null;
+        }
     }
 
     private void GameOver(){
