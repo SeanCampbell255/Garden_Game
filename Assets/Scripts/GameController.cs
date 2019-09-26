@@ -124,31 +124,75 @@ public class GameController : MonoBehaviour
             }
         }
         basketType = PieceType.None;
+        
     }
 
-    private bool checkMatch(GameObject currentTile, int[] currentPosition){
+    private void initialCheckMatch(GameObject currentTile, int[] currentPosition){
+        checkMatch(currentTile, currentPosition);
+
+        foreach(GameObject piece in matchingPieces){
+            if(matchingPieces.Count >= 5){
+                Destroy(piece);
+            }
+        }
+    }
+
+    private void checkMatch(GameObject currentTile, int[] currentPosition){
         //Checks if there's a piece on currentTile and sets it to currentPiece if there is
         GameObject currentPiece = getPiece(currentTile);
         if (currentPiece == null)
-            return false;
+            return;
 
         if(basketType == PieceType.None){
-            return false;
+            return;
         }else if(basketType != currentPiece.GetComponent<PieceController>().type){
-            return false;
+            return ;
         }
         else if(!matchingPieces.Contains(currentPiece)){
             matchingPieces.Add(currentPiece);
             checkAdjacencies(currentTile, currentPosition);
-            return true;
+            return;
         }
         else{
-            return false;
+            return;
         }
     }
 
     private void checkAdjacencies(GameObject currentTile, int[] currentPosition){
-        
+        GameObject leftPiece = null;
+        GameObject rightPiece = null;
+        GameObject topPiece = null;
+        GameObject botPiece = null;
+        GameObject[] adjacencyArray = { leftPiece, rightPiece, topPiece, botPiece };
+
+        int[] leftPos = { currentPosition[0] - 1, currentPosition[1] };
+        int[] rightPos = { currentPosition[0] + 1, currentPosition[1] };
+        int[] topPos = { currentPosition[0], currentPosition[1] - 1 };
+        int[] botPos = { currentPosition[0], currentPosition[1] + 1 };
+
+        if (leftPos[0] >= 0)
+            leftPiece = getPiece(boardArray[leftPos[0], leftPos[1]]);
+        if (rightPos[0] <= 6)
+            rightPiece = getPiece(boardArray[rightPos[0], rightPos[1]]);
+        if (topPos[1] >= 0)
+            topPiece = getPiece(boardArray[topPos[0], topPos[1]]);
+        if (botPos[1] <= 11)
+            botPiece = getPiece(boardArray[botPos[0], botPos[1]]);
+
+        foreach (GameObject piece in adjacencyArray){
+            if(piece != null && !matchingPieces.Contains(piece)){
+                if(piece == leftPiece){
+                    checkMatch(piece, leftPos);
+                }else if(piece == rightPiece){
+                    checkMatch(piece, rightPos);
+                }else if(piece == topPiece){
+                    checkMatch(piece, topPos);
+                }
+                else{
+                    checkMatch(piece, botPos);
+                }
+            }
+        }
     }
 
     private GameObject getPiece(GameObject currentTile){
