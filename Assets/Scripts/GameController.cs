@@ -102,8 +102,6 @@ public class GameController : MonoBehaviour
                             print(basketSize);
                         }
                     }
-                    int[] currentPos = { playerPosition, i };
-                    initialCheckMatch(currentTile, currentPos);
                     break;
                 } else if (i == 0){
                     i--;
@@ -121,8 +119,6 @@ public class GameController : MonoBehaviour
                             print(basketSize);
                         }
                     }
-                    int[] currentPos = { playerPosition, i };
-                    initialCheckMatch(currentTile, currentPos);
                     break;
                 }
             }
@@ -134,13 +130,11 @@ public class GameController : MonoBehaviour
     private void initialCheckMatch(GameObject currentTile, int[] currentPosition){
         checkMatch(currentTile, currentPosition);
 
-        if(matchingPieces.Count >= 5){
-            foreach(GameObject piece in matchingPieces){
-                Debug.Log(piece.GetComponent<PieceController>().type);
+        foreach(GameObject piece in matchingPieces){
+            if(matchingPieces.Count >= 5){
                 Destroy(piece);
             }
         }
-        matchingPieces.Clear();
     }
 
     private void checkMatch(GameObject currentTile, int[] currentPosition){
@@ -152,10 +146,9 @@ public class GameController : MonoBehaviour
         if(basketType == PieceType.None){
             return;
         }else if(basketType != currentPiece.GetComponent<PieceController>().type){
-            return;
+            return ;
         }
         else if(!matchingPieces.Contains(currentPiece)){
-            Debug.Log("adding piece");
             matchingPieces.Add(currentPiece);
             checkAdjacencies(currentTile, currentPosition);
             return;
@@ -188,13 +181,11 @@ public class GameController : MonoBehaviour
 
         foreach (GameObject piece in adjacencyArray){
             if(piece != null && !matchingPieces.Contains(piece)){
-                Debug.Log("loopin");
-                if (piece == leftPiece){
+                if(piece == leftPiece){
                     checkMatch(piece, leftPos);
                 }else if(piece == rightPiece){
                     checkMatch(piece, rightPos);
                 }else if(piece == topPiece){
-                    Debug.Log(topPos[0] + " " + topPos[1]);
                     checkMatch(piece, topPos);
                 }
                 else{
