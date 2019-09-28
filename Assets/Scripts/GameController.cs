@@ -80,8 +80,25 @@ public class GameController : MonoBehaviour
 
     public void Place(int playerPosition){
         if (basketSize > 0) {
+
+            GameObject existingPiece;
+            int[] tilePosition;
             for (int i = 0; i < 12; i++) {
-               
+
+                tilePosition = new int[] {playerPosition, i};
+                existingPiece = GetPiece(tilePosition);
+                if(existingPiece == null){
+
+                    while(basketSize > 0){
+
+                        tilePosition = new int[] { playerPosition, i };
+                        Instantiate(piece, boardArray[tilePosition[0], tilePosition[1]].transform,
+                                    false).GetComponent<PieceController>().SetType(basketType);
+                        i++;
+                        basketSize--;
+                    }
+                    break;
+                }
             }
         }
     }
