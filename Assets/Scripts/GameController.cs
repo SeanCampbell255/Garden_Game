@@ -80,47 +80,21 @@ public class GameController : MonoBehaviour
 
     public void Place(int playerPosition){
         if (basketSize > 0) {
-            for (int i = 11; i >= 0; i--) {
-                print(basketSize);
-                GameObject currentTile = boardArray[playerPosition, i];
-                int childCount = currentTile.transform.childCount;
-
-                if (childCount > 1) {
-                    GameOver();
-                } else if (childCount > 0 && currentTile.transform.GetChild(0).tag != "Player"){
-
-                    while(basketSize > 0){
-                        if(++i > 11){
-                            GameOver();
-                            break;
-                        }
-                        else{
-                            PieceController currentPiece = Instantiate(piece, boardArray[playerPosition, i].transform, false).GetComponent<PieceController>();
-                            currentPiece.SetType(basketType);
-                            basketSize--;
-                            print(basketSize);
-                        }
-                    }
-                    break;
-                } else if (i == 0){
-                    i--;
-                    while (basketSize > 0){
-                        if (++i > 11)
-                        {
-                            GameOver();
-                            break;
-                        }
-                        else
-                        {
-                            PieceController currentPiece = Instantiate(piece, boardArray[playerPosition, i].transform, false).GetComponent<PieceController>();
-                            currentPiece.SetType(basketType);
-                            basketSize--;
-                            print(basketSize);
-                        }
-                    }
-                    break;
-                }
+            for (int i = 0; i < 12; i++) {
+               
             }
+        }
+    }
+
+    private GameObject GetPiece(int[] tilePos){
+        Transform tileTransform = boardArray[tilePos[0], tilePos[1]].transform;
+        if(tileTransform.childCount > 1){
+            return tileTransform.GetChild(1).gameObject;
+        }else if(tileTransform.childCount > 0 && tileTransform.GetChild(0).tag != "Player"){
+            return tileTransform.GetChild(0).gameObject;
+        }
+        else{
+            return null;
         }
     }
 
