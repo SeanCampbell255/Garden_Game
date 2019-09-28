@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject piece;
 
-    public enum PieceType {None, Trash, Seed, Sprout, Bud, Flower };
+    public enum PieceType {Trash, Seed, Sprout, Bud, Flower };
 
     //Private Variables
     private int boardWidth = 7;
@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
     
 
     private GameObject[,] boardArray = new GameObject[7, 12];
-    private List<GameObject> matchingPieces = new List<GameObject>();
 
 
     // Instantiate & Preprocess
@@ -123,37 +122,6 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        basketType = PieceType.None;
-    }
-
-    private bool checkMatch(GameObject currentTile, int[] currentPosition){
-        //Checks if there's a piece on currentTile and sets it to currentPiece if there is
-        GameObject currentPiece;
-        if(currentTile.transform.childCount > 1) {
-            currentPiece = currentTile.transform.GetChild(1).gameObject;
-        }else if(currentTile.transform.childCount > 0) {
-            currentPiece = currentTile.transform.GetChild(0).gameObject;
-        }else{
-            return false;
-        }
-
-        if(basketType == PieceType.None){
-            return false;
-        }else if(basketType != currentPiece.GetComponent<PieceController>().type){
-            return false;
-        }
-        else if(!matchingPieces.Contains(currentPiece)){
-            matchingPieces.Add(currentPiece);
-            checkAdjacencies(currentTile, currentPosition);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    private void checkAdjacencies(GameObject currentTile, int[] currentPosition){
-        
     }
 
     private void GameOver(){
