@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour
                         basketSize--;
                     }
                     CheckForMatch(tilePosition, basketType);
-                    ExecuteMatch();
+                    ExecuteMatch(playerPosition);
                     break;
                 }
             }
@@ -144,12 +144,16 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void ExecuteMatch(){
+    private void ExecuteMatch(int column){
+        int topRow = 12;
         if(matchingCoordinates.Count >= matchSize){
             foreach(int[] coord in matchingCoordinates){
-                Debug.Log("Destroying at " + coord[0] + " " + coord[1]);
+                if (topRow > coord[1])
+                    topRow = coord[1];
                 DestroyImmediate(GetPiece(coord));
             }
+            Instantiate(piece, boardArray[column, topRow].transform, false).GetComponent<PieceController>().SetType(basketType + 1);
+
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
                 GameObject botPiece = GetPiece(botCoord);
