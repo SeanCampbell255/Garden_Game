@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public enum PieceType {Trash, Seed, Sprout, Bud, Flower };
 
     public int matchSize;
+    public int numInitialRows;
 
     //Private Variables
     private int boardWidth = 7;
@@ -27,7 +28,6 @@ public class GameController : MonoBehaviour
 
     // Instantiate & Preprocess
     void Start(){
-
         GameObject currentRow;
 
         //Creates an array filled with tile game objects
@@ -38,7 +38,26 @@ public class GameController : MonoBehaviour
                 boardArray[j, i] = currentRow.transform.GetChild(j).gameObject;
             }
         }
+
+        InitializeBoard();
     }
+
+    private void InitializeBoard(){
+        for(int i = 0; i < numInitialRows; i++){
+
+            for(int j = 0; j < 7; j++){
+                PieceType randType = RandomPieceType();
+
+                Instantiate(piece, boardArray[j, i].transform, false).GetComponent<PieceController>().SetType(randType);
+            }
+        }
+    }
+
+    private PieceType RandomPieceType(){
+        int num = (int)(Random.value * 4);
+
+        return (PieceType)num;
+    } 
 
     //Moves player to playerPosition and childs it to the tile at position
     public void UpdatePlayerPosition(int playerPosition){
