@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
 
     private GameObject[,] boardArray = new GameObject[7, 12];
     private List<int[]> matchingCoordinates = new List<int[]>();
+    private Queue<int[]> matchCheckQueue = new Queue<int[]>(); 
 
 
     // Instantiate & Preprocess
@@ -121,6 +122,16 @@ public class GameController : MonoBehaviour
                     }
                     CheckForMatch(tilePosition, basketType);
                     ExecuteMatch(playerPosition);
+                    
+                    while(matchCheckQueue.Count > 0){
+                        tilePosition = matchCheckQueue.Dequeue();
+                        existingPiece = GetPiece(tilePosition);
+
+                        if(existingPiece != null){
+                            CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
+                            ExecuteMatch(tilePosition[0]);
+                        }
+                    }
                     break;
                 }
             }
@@ -165,13 +176,19 @@ public class GameController : MonoBehaviour
 
     private void ExecuteMatch(int column){
         int topRow = 12;
+        PieceType matchingType = GetPiece(matchingCoordinates[0]).GetComponent<PieceController>().type;
+
         if(matchingCoordinates.Count >= matchSize){
             foreach(int[] coord in matchingCoordinates){
                 if (topRow > coord[1])
                     topRow = coord[1];
                 DestroyImmediate(GetPiece(coord));
             }
-            Instantiate(piece, boardArray[column, topRow].transform, false).GetComponent<PieceController>().SetType(basketType + 1);
+
+            int[] tilePos = FindHighestEmptyTile(column);
+            GameObject tile = boardArray[tilePos[0], tilePos[1]];
+            Instantiate(piece, tile.transform, false).GetComponent<PieceController>().SetType(matchingType + 1);
+            matchCheckQueue.Enqueue(tilePos);
 
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
@@ -179,7 +196,11 @@ public class GameController : MonoBehaviour
 
                 while(botPiece != null){
                     Debug.Log(botPiece.GetComponent<PieceController>().type + " at " + botCoord[0] + " " + botCoord[1]);
-                    botPiece.transform.SetParent(FindHighestEmptyTile(botCoord[0]).transform, false);
+
+                    tilePos = FindHighestEmptyTile(botCoord[0]);
+                    tile = boardArray[tilePos[0], tilePos[1]];
+                    botPiece.transform.SetParent(tile.transform, false);
+                    matchCheckQueue.Enqueue(tilePos);
 
                     botCoord[1]++;
                     botPiece = GetPiece(botCoord);
@@ -198,11 +219,10 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    private GameObject FindHighestEmptyTile(int column){
+    private int[] FindHighestEmptyTile(int column){
         for(int i = 0; i < 12; i++){
             if(boardArray[column, i].transform.childCount == 0){
-                Debug.Log("Highest empty tile at: " + column + " " + i);
-                return boardArray[column, i];
+                return new int[] { column, i };
             }
         }
         return null;
