@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
         }
 
         InitializeBoard();
+        StartCoroutine(SpawnRows());
     }
 
     private void InitializeBoard(){
@@ -246,5 +247,42 @@ public class GameController : MonoBehaviour
 
     private void GameOver(){
         print("Big RIP");
+    }
+
+    private IEnumerator SpawnRows(){
+        List<GameObject> piecesToBeMoved = new List<GameObject>();
+        List<int[]> coordsToBeMoved = new List<int[]>();
+
+        while (true){
+            yield return new WaitForSeconds(8.0f);
+
+            for(int i = 0; i < 7; i++){
+
+                for(int j = 0; j < 12; j++){
+                    GameObject piece = GetPiece(new int[] {i, j});
+
+                    if(piece != null){
+                        piecesToBeMoved.Add(piece);
+                        coordsToBeMoved.Add(new int[] {i, j});
+                    }
+                }
+            }
+            for (int i = 0; i < coordsToBeMoved.Count; i++){
+                int[] initialTile = coordsToBeMoved[i];
+
+                Debug.Log(initialTile[0] + " " + initialTile[1]);
+
+                piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform, false);
+            }
+
+            piecesToBeMoved.Clear();
+            coordsToBeMoved.Clear();
+            for(int i= 0; i < 7; i++){
+                PieceType randType = RandomPieceType();
+
+
+                Instantiate(piece, boardArray[i, 0].transform, false).GetComponent<PieceController>().SetType(randType);
+            }
+        }
     }
 }
