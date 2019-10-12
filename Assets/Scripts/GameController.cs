@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
     public int matchSize;
     public int numInitialRows;
 
+    public float timeBetweenMatches;
+
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
@@ -89,6 +91,9 @@ public class GameController : MonoBehaviour
             //Update basketSize and basketType based on pickups and state of basketType
             //This discriminates between pieces of the current basketType and other types
             if (currentPiece != null){
+                if(matchingCoordinates.Contains(new int[] {playerPosition, i })){
+                    matchingCoordinates.Clear();
+                }
                 PieceType currentPieceType = currentPiece.GetType();
                 if (basketSize == 0){
                     basketType = currentPieceType;
@@ -121,18 +126,9 @@ public class GameController : MonoBehaviour
                         i++;
                         basketSize--;
                     }
-                    CheckForMatch(tilePosition, basketType);
-                    ExecuteMatch(playerPosition);
+                    matchCheckQueue.Enqueue(tilePosition);
+                    StartCoroutine(WaitThenExecuteMatch(timeBetweenMatches));
                     
-                    while(matchCheckQueue.Count > 0){
-                        tilePosition = matchCheckQueue.Dequeue();
-                        existingPiece = GetPiece(tilePosition);
-
-                        if(existingPiece != null){
-                            CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
-                            ExecuteMatch(tilePosition[0]);
-                        }
-                    }
                     break;
                 }
             }
@@ -140,7 +136,6 @@ public class GameController : MonoBehaviour
     }
 
     private void CheckForMatch(int[] tilePosition, PieceType matchType){
-        Debug.Log("Checking at pos: " + tilePosition[0] + " " + tilePosition[1]);
         matchingCoordinates.Add(tilePosition);
 
         int[] leftCoords = {tilePosition[0] - 1, tilePosition[1]};
@@ -200,7 +195,6 @@ public class GameController : MonoBehaviour
                 GameObject botPiece = GetPiece(botCoord);
 
                 while(botPiece != null){
-                    Debug.Log(botPiece.GetComponent<PieceController>().type + " at " + botCoord[0] + " " + botCoord[1]);
 
                     tilePos = FindHighestEmptyTile(botCoord[0]);
                     tile = boardArray[tilePos[0], tilePos[1]];
@@ -274,8 +268,6 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
 
-                Debug.Log(initialTile[0] + " " + initialTile[1]);
-
                 piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform, false);
             }
 
@@ -288,5 +280,30 @@ public class GameController : MonoBehaviour
                 Instantiate(piece, boardArray[i, 0].transform, false).GetComponent<PieceController>().SetType(randType);
             }
         }
+    }
+
+    private IEnumerator WaitThenExecuteMatch(float time){
+        
+
+        while (matchCheckQueue.Count > 0)
+        {
+            
+            yield return new WaitForSeconds(time);
+
+            int[] tilePosition = matchCheckQueue.Dequeue();
+            Debug.Log(tilePosition[0] + " " + tilePosition[1]);
+            GameObject existingPiece = GetPiece(tilePosition);
+
+            if (existingPiece != null)
+            {
+                CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
+                ExecuteMatch(tilePosition[0]);
+            }
+        }
+        
+
+
+
+
     }
 }
