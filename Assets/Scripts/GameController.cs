@@ -188,8 +188,11 @@ public class GameController : MonoBehaviour
 
             int[] tilePos = FindHighestEmptyTile(column);
             GameObject tile = boardArray[tilePos[0], tilePos[1]];
-            Instantiate(piece, tile.transform, false).GetComponent<PieceController>().SetType(matchingType + 1);
-            matchCheckQueue.Enqueue(tilePos);
+
+            if (matchingType != PieceType.Flower){
+                Instantiate(piece, tile.transform, false).GetComponent<PieceController>().SetType(matchingType + 1);
+                matchCheckQueue.Enqueue(tilePos);
+            }
 
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
