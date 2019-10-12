@@ -194,6 +194,7 @@ public class GameController : MonoBehaviour
                 matchCheckQueue.Enqueue(tilePos);
             }
 
+            //"gravity"
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
                 GameObject botPiece = GetPiece(botCoord);
@@ -239,7 +240,7 @@ public class GameController : MonoBehaviour
 
         Transform tileTransform = boardArray[tilePos[0], tilePos[1]].transform;
         if(tileTransform.childCount > 1){
-            return tileTransform.GetChild(1).gameObject;
+            return tileTransform.GetChild(1).gameObject;//doesn't handle case where player is second child PLS FIX
         }else if(tileTransform.childCount > 0 && tileTransform.GetChild(0).tag != "Player"){
             return tileTransform.GetChild(0).gameObject;
         }
