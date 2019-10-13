@@ -13,10 +13,8 @@ public class GameController : MonoBehaviour
 
     public int matchSize;
     public int numInitialRows;
-    public int pieceMovementIntervals;
 
     public float timeBetweenMatches;
-    public float pieceMovementTime;
 
     //Private Variables
     private int boardWidth = 7;
@@ -54,8 +52,7 @@ public class GameController : MonoBehaviour
             for(int j = 0; j < 7; j++){
                 PieceType randType = RandomPieceType();
 
-                GameObject newPiece = Instantiate(piece, boardArray[j, i].transform);
-                newPiece.GetComponent<PieceController>().SetType(randType);
+                Instantiate(piece, boardArray[j, i].transform, false).GetComponent<PieceController>().SetType(randType);
             }
         }
     }
@@ -124,10 +121,8 @@ public class GameController : MonoBehaviour
                     while(basketSize > 0){
 
                         tilePosition = new int[] { playerPosition, i };
-
-                        GameObject newPiece = Instantiate(piece, boardArray[tilePosition[0], tilePosition[1]].transform);
-                        newPiece.GetComponent<PieceController>().SetType(basketType);
-
+                        Instantiate(piece, boardArray[tilePosition[0], tilePosition[1]].transform,
+                                    false).GetComponent<PieceController>().SetType(basketType);
                         i++;
                         basketSize--;
                     }
@@ -190,9 +185,7 @@ public class GameController : MonoBehaviour
             GameObject tile = boardArray[tilePos[0], tilePos[1]];
 
             if (matchingType != PieceType.Flower){
-                GameObject newPiece = Instantiate(piece, tile.transform);
-                newPiece.GetComponent<PieceController>().SetType(matchingType + 1);
-
+                Instantiate(piece, tile.transform, false).GetComponent<PieceController>().SetType(matchingType + 1);
                 matchCheckQueue.Enqueue(tilePos);
             }
 
@@ -206,7 +199,6 @@ public class GameController : MonoBehaviour
                     tilePos = FindHighestEmptyTile(botCoord[0]);
                     tile = boardArray[tilePos[0], tilePos[1]];
                     botPiece.transform.SetParent(tile.transform, false);
-                    StartCoroutine(PieceMovementAnimation(botPiece, boardArray[botCoord[0],botCoord[1]], tile, tilePos[0]));
                     matchCheckQueue.Enqueue(tilePos);
 
                     botCoord[1]++;
@@ -276,8 +268,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
 
-                piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform);
-                StartCoroutine(PieceMovementAnimation(piecesToBeMoved[i], boardArray[initialTile[0], initialTile[1]], boardArray[initialTile[0], initialTile[1] + 1], initialTile[0]));
+                piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform, false);
             }
 
             piecesToBeMoved.Clear();
@@ -285,15 +276,18 @@ public class GameController : MonoBehaviour
             for(int i= 0; i < 7; i++){
                 PieceType randType = RandomPieceType();
 
-                GameObject newPiece = Instantiate(piece, boardArray[i, 0].transform);
-                newPiece.GetComponent<PieceController>().SetType(randType);
+
+                Instantiate(piece, boardArray[i, 0].transform, false).GetComponent<PieceController>().SetType(randType);
             }
         }
     }
 
     private IEnumerator WaitThenExecuteMatch(float time){
+        
+
         while (matchCheckQueue.Count > 0)
         {
+            
             yield return new WaitForSeconds(time);
 
             int[] tilePosition = matchCheckQueue.Dequeue();
@@ -306,36 +300,10 @@ public class GameController : MonoBehaviour
                 ExecuteMatch(tilePosition[0]);
             }
         }
-    }
+        
 
-    private IEnumerator PieceMovementAnimation(GameObject piece, GameObject originalTile, GameObject newTile, int column){
-        int originalRow = 0;
-        int newRow = 0;
-        for(int i = 0; i < 11; i++){
-            GameObject currentTile = boardArray[column, i];
 
-            if(currentTile == originalTile){
-                originalRow = i;
-            }else if(currentTile == newTile){
-                newRow = i;
-            }
-        }
 
-        float offset = (originalRow - newRow) * 4.55f;
-        piece.transform.position = new Vector2(piece.transform.position.x, piece.transform.position.y + offset);
 
-        float movementInterval = offset / pieceMovementIntervals;
-        float intervalTime = pieceMovementTime / pieceMovementIntervals;
-        int numIntervals = pieceMovementIntervals;
-
-        while(numIntervals-- > 0){
-            yield return new WaitForSeconds(intervalTime);
-
-            
-            
-
-            piece.transform.position = new Vector2(0.0f, piece.transform.position.y - movementInterval);
-        }
-        piece.transform.position = new Vector2(0.0f, 0.0f);
     }
 }
