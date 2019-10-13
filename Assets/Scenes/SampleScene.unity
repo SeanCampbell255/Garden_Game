@@ -252,6 +252,7 @@ MonoBehaviour:
   piece: {fileID: 1865284874534520467, guid: 279de7247ef67a34794a96264fd96582, type: 3}
   matchSize: 5
   numInitialRows: 3
+  timeBetweenMatches: 0.5
 --- !u!4 &45008246
 Transform:
   m_ObjectHideFlags: 0
