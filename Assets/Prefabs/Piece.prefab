@@ -95,11 +95,11 @@ MonoBehaviour:
   gameController: {fileID: 0}
   type: 0
   trashSprites:
-  - {fileID: 21300000, guid: 439b9d454126d974e9cccc39cd08f547, type: 3}
-  - {fileID: 21300000, guid: 2d669e92d9c716b43999eb55bfe4a4cc, type: 3}
-  - {fileID: 21300000, guid: f2d2eb380f9fdd74a89988f93527efa5, type: 3}
-  - {fileID: 21300000, guid: 250911ca6045b9e428601d612378ad97, type: 3}
-  seedSprite: {fileID: 21300000, guid: 19eefa4c058f54d4ca218e55472d44ab, type: 3}
-  sproutSprite: {fileID: 21300000, guid: 5b848cd7e5c247d42ae9e387d48eaa39, type: 3}
-  budSprite: {fileID: 21300000, guid: a254c2ef2904d7643ac8f159b48bfc51, type: 3}
-  flowerSprite: {fileID: 21300000, guid: 2696a760845beac41847b9e46f5bee93, type: 3}
+  - {fileID: 21300000, guid: 4059cc99ae447b14ebae238670ea6319, type: 3}
+  - {fileID: 21300000, guid: 0ab948bcbf7a28f4ab851b353c061116, type: 3}
+  - {fileID: 21300000, guid: c9160ccabd49ffe4195373fa2d80cd5c, type: 3}
+  - {fileID: 21300000, guid: 6aae00f3dfd281b41b9d6fa5527940c3, type: 3}
+  seedSprite: {fileID: 21300000, guid: 90587ba2b92c66e449c82e69575d190b, type: 3}
+  sproutSprite: {fileID: 21300000, guid: 87ddf11285751844bacb9230d0e75883, type: 3}
+  budSprite: {fileID: 21300000, guid: f38a01741cfc98c4795803cbede0105b, type: 3}
+  flowerSprite: {fileID: 21300000, guid: 00b69325a3e24b64c82a7a7dc8ab17a4, type: 3}

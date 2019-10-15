@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public int numInitialRows;
 
     public float timeBetweenMatches;
+    public float timeBetweenRows;
 
     //Private Variables
     private int boardWidth = 7;
@@ -252,7 +253,7 @@ public class GameController : MonoBehaviour
         List<int[]> coordsToBeMoved = new List<int[]>();
 
         while (true){
-            yield return new WaitForSeconds(8.0f);
+            yield return new WaitForSeconds(timeBetweenRows);
 
             for(int i = 0; i < 7; i++){
 
