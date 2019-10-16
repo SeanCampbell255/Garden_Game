@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    //Public Variables
+    //Public Variables, mostly for setting stuff in the the editor
     public GameObject board;
     public GameObject player;
     public GameObject piece;
 
-    public enum PieceType {Trash, Seed, Sprout, Bud, Flower };
+    public enum PieceType {Trash, Seed, Sprout, Bud, Flower };//PieceType is here because it has the most references in this script
 
-    public int matchSize;
+    public int matchSize;//minimum number of pieces needed to match
     public int numInitialRows;
 
     public float timeBetweenMatches;
-    public float timeBetweenRows;
+    public float timeBetweenRows;//ammount of time before new row sent
 
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
     private int basketSize = 0;
+
+    private bool checkingMatches = false;
 
     private PieceType basketType;
     
@@ -30,7 +32,7 @@ public class GameController : MonoBehaviour
     private Queue<int[]> matchCheckQueue = new Queue<int[]>(); 
 
 
-    // Instantiate & Preprocess
+    // Instantiate
     void Start(){
         GameObject currentRow;
 
@@ -46,7 +48,7 @@ public class GameController : MonoBehaviour
         InitializeBoard();
         StartCoroutine(SpawnRows());
     }
-
+    //Creates the initial rows of pieces
     private void InitializeBoard(){
         for(int i = 0; i < numInitialRows; i++){
 
@@ -57,7 +59,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
+    //Returns a random PieceType
     private PieceType RandomPieceType(){
         int num = (int)(Random.value * 4);
 
@@ -73,7 +75,7 @@ public class GameController : MonoBehaviour
 
     //Grabs all pieces of same type adjacent to lowest piece in column
     public void Grab(int playerPosition){
-        //Access each tile from bottom up
+        //Access each tile from bottom up only in player's column
         for(int i = 11; i >=0; i--){
             GameObject currentTile = boardArray[playerPosition, i];
             int childCount = currentTile.transform.childCount;
@@ -107,18 +109,20 @@ public class GameController : MonoBehaviour
         }
         print(basketSize);
     }
-
+    //Empties basket into player column
     public void Place(int playerPosition){
+        //Does nothing if basket empty
         if (basketSize > 0) {
 
             GameObject existingPiece;
             int[] tilePosition;
+            //Finding empty tile starting at top of column
             for (int i = 0; i < 12; i++) {
 
                 tilePosition = new int[] {playerPosition, i};
                 existingPiece = GetPiece(tilePosition);
                 if(existingPiece == null){
-
+                    //Placing pieces
                     while(basketSize > 0){
 
                         tilePosition = new int[] { playerPosition, i };
@@ -130,7 +134,7 @@ public class GameController : MonoBehaviour
                     matchCheckQueue.Enqueue(tilePosition);
                     StartCoroutine(WaitThenExecuteMatch(timeBetweenMatches));
                     
-                    break;
+                    break;//Once we find a place to put pieces we're done with the loop
                 }
             }
         }
@@ -284,27 +288,22 @@ public class GameController : MonoBehaviour
     }
 
     private IEnumerator WaitThenExecuteMatch(float time){
-        
 
-        while (matchCheckQueue.Count > 0)
-        {
-            
-            yield return new WaitForSeconds(time);
+        if (!checkingMatches){
+            while (matchCheckQueue.Count > 0){
+                checkingMatches = true;
+                yield return new WaitForSeconds(time);
 
-            int[] tilePosition = matchCheckQueue.Dequeue();
-            Debug.Log(tilePosition[0] + " " + tilePosition[1]);
-            GameObject existingPiece = GetPiece(tilePosition);
+                int[] tilePosition = matchCheckQueue.Dequeue();
+                Debug.Log(tilePosition[0] + " " + tilePosition[1]);
+                GameObject existingPiece = GetPiece(tilePosition);
 
-            if (existingPiece != null)
-            {
-                CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
-                ExecuteMatch(tilePosition[0]);
+                if (existingPiece != null){
+                    CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
+                    ExecuteMatch(tilePosition[0]);
+                }
             }
+            checkingMatches = false;
         }
-        
-
-
-
-
     }
 }
