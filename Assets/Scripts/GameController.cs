@@ -276,8 +276,7 @@ public class GameController : MonoBehaviour
             //Moves all pieces down
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
-
-                piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform, false);
+                StartCoroutine(MovePiece(piecesToBeMoved[i], initialTile, 1));
             }
             //Ensures ongoing matches retain their correct coordinates
             if(matchingCoordinates.Count > 0){
@@ -292,8 +291,10 @@ public class GameController : MonoBehaviour
             for(int i= 0; i < 7; i++){
                 PieceType randType = RandomPieceType();
 
-
-                Instantiate(piece, boardArray[i, 0].transform, false).GetComponent<PieceController>().SetType(randType);
+                GameObject currentPiece = Instantiate(piece, boardArray[i, 0].transform, false);
+                currentPiece.GetComponent<PieceController>().SetType(randType);
+                currentPiece.transform.localPosition = new Vector2(0.0f, 4.45f);
+                StartCoroutine(MovePiece(currentPiece, new int[] {i, -1}, 1));
             }
         }
     }
@@ -316,5 +317,31 @@ public class GameController : MonoBehaviour
             }
             checkingMatches = false;
         }
+    }
+    //
+    private IEnumerator MovePiece(GameObject piece, int[] initialCoords, int deltaY){
+        float targetY = 4.45f * -deltaY;
+        Vector2 currentPos = piece.transform.localPosition;
+        float totalTimeForMove = 0.5f;
+        int numIncrements = 10;
+        float timeBetweenIncrements = totalTimeForMove / numIncrements;
+        float posChangePerIncrement = targetY / numIncrements;
+
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.canGrab = false;
+        playerController.canPlace = false;
+
+        for (int i = numIncrements; i > 0; i--){
+            currentPos.y += posChangePerIncrement;
+            Debug.Log(currentPos.y);
+            piece.transform.localPosition = currentPos;
+
+            yield return new WaitForSeconds(timeBetweenIncrements);
+        }
+        piece.transform.localPosition = new Vector2(0.0f, 0.0f);
+        piece.transform.SetParent(boardArray[initialCoords[0], initialCoords[1] + deltaY].transform, false);
+
+        playerController.canGrab = true;
+        playerController.canPlace = true;
     }
 }

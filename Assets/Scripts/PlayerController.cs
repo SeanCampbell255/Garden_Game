@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour{
     //Public Variables
     public GameController gameController;
 
+    public bool canGrab;
+    public bool canPlace;
+
     //Private Variables
     private int playerPosition = 3;
     private bool moveRight;
@@ -25,9 +28,9 @@ public class PlayerController : MonoBehaviour{
         place = Input.GetKeyDown(KeyCode.UpArrow);
 
         //Detects a grab or place, makes it so you can't do both same frame
-        if (grab){
+        if (grab && canGrab){
             gameController.Grab(playerPosition);
-        }else if (place){
+        }else if (place && canPlace){
             gameController.Place(playerPosition);
         }
 
