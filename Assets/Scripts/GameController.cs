@@ -139,7 +139,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
+    //Adds current tile to coordinates to check, then if there's a piece of the same type adjacent it calls CheckForMatch on it
     private void CheckForMatch(int[] tilePosition, PieceType matchType){
         matchingCoordinates.Add(tilePosition);
 
@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
         GameObject rightPiece = GetPiece(rightCoords);
         GameObject topPiece = GetPiece(topCoords);
         GameObject botPiece = GetPiece(botCoords);
-
+        //Checks if there's a piece, then if it's already in the list, then if it's the same type as others that are matching
         if(leftPiece != null && !DoCoordinatesMatch(leftCoords)){
             if(leftPiece.GetComponent<PieceController>().type == matchType){
                 CheckForMatch(leftCoords, matchType);
@@ -174,7 +174,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
+    //Executes a match after match checking has processed all relevent pieces and there are more than the matchSize in the matchingCoordinates list
     private void ExecuteMatch(int column){
         int topRow = 12;
         PieceType matchingType = GetPiece(matchingCoordinates[0]).GetComponent<PieceController>().type;
@@ -189,12 +189,14 @@ public class GameController : MonoBehaviour
             int[] tilePos = FindHighestEmptyTile(column);
             GameObject tile = boardArray[tilePos[0], tilePos[1]];
 
+            //Creates a new piece on passed column at highest empty position
             if (matchingType != PieceType.Flower){
                 Instantiate(piece, tile.transform, false).GetComponent<PieceController>().SetType(matchingType + 1);
                 matchCheckQueue.Enqueue(tilePos);
             }
 
-            //"gravity"
+            //If a piece has an empty tile above it, it moves up then goes into the matchCheckQueue
+            //This works for multiple pieces with an empty tile above
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
                 GameObject botPiece = GetPiece(botCoord);
@@ -213,7 +215,7 @@ public class GameController : MonoBehaviour
         }
         matchingCoordinates.Clear();
     }
-
+    //Checks if passed coordinates are already in the matchingCoordinates list
     private bool DoCoordinatesMatch(int[] coords){
         foreach(int[] oldCoords in matchingCoordinates){
             if(oldCoords[0] == coords[0] && oldCoords[1] == coords[1]){
@@ -222,7 +224,7 @@ public class GameController : MonoBehaviour
         }
         return false;
     }
-
+    //Finds the highest empty tile in a passed column
     private int[] FindHighestEmptyTile(int column){
         for(int i = 0; i < 12; i++){
             if(boardArray[column, i].transform.childCount == 0){
@@ -231,7 +233,7 @@ public class GameController : MonoBehaviour
         }
         return null;
     }
-
+    //Checks a passed coordinate for any pieces, if out of bounds or doesn't contain a piece it returns null
     private GameObject GetPiece(int[] tilePos){
         if(tilePos[0] < 0 || tilePos[0] > 6 || tilePos[1] < 0 || tilePos[1] > 11){
             return null;
@@ -247,11 +249,11 @@ public class GameController : MonoBehaviour
             return null;
         }
     }
-
+    //Placeholder GameOver method
     private void GameOver(){
         print("Big RIP");
     }
-
+    //Spawns rows of random pieces every timeBetweenRows seconds, also moves all existing pieces down a row
     private IEnumerator SpawnRows(){
         List<GameObject> piecesToBeMoved = new List<GameObject>();
         List<int[]> coordsToBeMoved = new List<int[]>();
@@ -259,6 +261,7 @@ public class GameController : MonoBehaviour
         while (true){
             yield return new WaitForSeconds(timeBetweenRows);
 
+            //Adding all pieces and coordinates that contain pieces to lists
             for(int i = 0; i < 7; i++){
 
                 for(int j = 0; j < 12; j++){
@@ -270,6 +273,7 @@ public class GameController : MonoBehaviour
                     }
                 }
             }
+            //Moves all pieces down
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
 
@@ -278,6 +282,7 @@ public class GameController : MonoBehaviour
 
             piecesToBeMoved.Clear();
             coordsToBeMoved.Clear();
+            //Creates new row of random pieces
             for(int i= 0; i < 7; i++){
                 PieceType randType = RandomPieceType();
 
@@ -286,9 +291,9 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
+    //Waits "time" seconds before executing match so player can see what is happening
     private IEnumerator WaitThenExecuteMatch(float time){
-
+        //Only proceeds if WaitThenExecuteMatch has not already been called
         if (!checkingMatches){
             while (matchCheckQueue.Count > 0){
                 checkingMatches = true;
