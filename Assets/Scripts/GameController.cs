@@ -279,6 +279,12 @@ public class GameController : MonoBehaviour
 
                 piecesToBeMoved[i].transform.SetParent(boardArray[initialTile[0], initialTile[1] + 1].transform, false);
             }
+            //Ensures ongoing matches retain their correct coordinates
+            if(matchingCoordinates.Count > 0){
+                foreach (int[] coord in matchingCoordinates){
+                    coord[1]++;
+                }
+            }
 
             piecesToBeMoved.Clear();
             coordsToBeMoved.Clear();
