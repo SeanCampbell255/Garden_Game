@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 
     public float timeBetweenMatches;
     public float timeBetweenRows;//ammount of time before new row sent
+    public float timeForPieceMovement;
 
     //Private Variables
     private int boardWidth = 7;
@@ -23,6 +24,7 @@ public class GameController : MonoBehaviour
     private int basketSize = 0;
 
     private bool checkingMatches = false;
+    private bool rowSpawning = false;
 
     private PieceType basketType;
     
@@ -304,7 +306,11 @@ public class GameController : MonoBehaviour
         if (!checkingMatches){
             while (matchCheckQueue.Count > 0){
                 checkingMatches = true;
-                yield return new WaitForSeconds(time);
+                if (rowSpawning){
+                    yield return new WaitForSeconds(time + timeForPieceMovement);
+                }else{
+                    yield return new WaitForSeconds(time);
+                }
 
                 int[] tilePosition = matchCheckQueue.Dequeue();
                 Debug.Log(tilePosition[0] + " " + tilePosition[1]);
@@ -322,7 +328,7 @@ public class GameController : MonoBehaviour
     private IEnumerator MovePiece(GameObject piece, int[] initialCoords, int deltaY){
         float targetY = 4.45f * -deltaY;
         Vector2 currentPos = piece.transform.localPosition;
-        float totalTimeForMove = 0.5f;
+        float totalTimeForMove = timeForPieceMovement;
         int numIncrements = 10;
         float timeBetweenIncrements = totalTimeForMove / numIncrements;
         float posChangePerIncrement = targetY / numIncrements;
@@ -331,9 +337,10 @@ public class GameController : MonoBehaviour
         playerController.canGrab = false;
         playerController.canPlace = false;
 
+        rowSpawning = true;
+
         for (int i = numIncrements; i > 0; i--){
             currentPos.y += posChangePerIncrement;
-            Debug.Log(currentPos.y);
             piece.transform.localPosition = currentPos;
 
             yield return new WaitForSeconds(timeBetweenIncrements);
@@ -343,5 +350,7 @@ public class GameController : MonoBehaviour
 
         playerController.canGrab = true;
         playerController.canPlace = true;
+
+        rowSpawning = false;
     }
 }

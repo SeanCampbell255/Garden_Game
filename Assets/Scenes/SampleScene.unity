@@ -266,6 +266,7 @@ MonoBehaviour:
   numInitialRows: 3
   timeBetweenMatches: 0.5
   timeBetweenRows: 6
+  timeForPieceMovement: 0.5
 --- !u!4 &45008246
 Transform:
   m_ObjectHideFlags: 0
