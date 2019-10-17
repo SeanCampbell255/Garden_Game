@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     private int basketSize = 0;
 
     private bool checkingMatches = false;
-    private bool rowSpawning = false;
+    private bool piecesMoving = false;
 
     private PieceType basketType;
     
@@ -202,16 +202,20 @@ public class GameController : MonoBehaviour
             foreach(int[] coord in matchingCoordinates){
                 int[] botCoord = { coord[0], coord[1] + 1};
                 GameObject botPiece = GetPiece(botCoord);
+                int i = 0;
 
                 while(botPiece != null){
 
                     tilePos = FindHighestEmptyTile(botCoord[0]);
+                    tilePos[1] += i;
                     tile = boardArray[tilePos[0], tilePos[1]];
-                    botPiece.transform.SetParent(tile.transform, false);
+                    int distance = tilePos[1] - botCoord[1];
+                    StartCoroutine(MovePiece(botPiece, tilePos, distance));
                     matchCheckQueue.Enqueue(tilePos);
 
                     botCoord[1]++;
                     botPiece = GetPiece(botCoord);
+                    i++;
                 }
             }
         }
@@ -278,12 +282,17 @@ public class GameController : MonoBehaviour
             //Moves all pieces down
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
-                StartCoroutine(MovePiece(piecesToBeMoved[i], initialTile, 1));
+                StartCoroutine(MovePiece(piecesToBeMoved[i], new int[] {initialTile[0], initialTile[1] + 1}, 1));
             }
             //Ensures ongoing matches retain their correct coordinates
             if(matchingCoordinates.Count > 0){
                 foreach (int[] coord in matchingCoordinates){
                     coord[1]++;
+                }
+            }
+            if(matchCheckQueue.Count > 0){
+                foreach (int[] coords in matchCheckQueue){
+                    coords[1]++;
                 }
             }
 
@@ -296,7 +305,7 @@ public class GameController : MonoBehaviour
                 GameObject currentPiece = Instantiate(piece, boardArray[i, 0].transform, false);
                 currentPiece.GetComponent<PieceController>().SetType(randType);
                 currentPiece.transform.localPosition = new Vector2(0.0f, 4.45f);
-                StartCoroutine(MovePiece(currentPiece, new int[] {i, -1}, 1));
+                StartCoroutine(MovePiece(currentPiece, new int[] {i, 0}, 1));
             }
         }
     }
@@ -306,7 +315,7 @@ public class GameController : MonoBehaviour
         if (!checkingMatches){
             while (matchCheckQueue.Count > 0){
                 checkingMatches = true;
-                if (rowSpawning){
+                if (piecesMoving){
                     yield return new WaitForSeconds(time + timeForPieceMovement);
                 }else{
                     yield return new WaitForSeconds(time);
@@ -325,7 +334,7 @@ public class GameController : MonoBehaviour
         }
     }
     //
-    private IEnumerator MovePiece(GameObject piece, int[] initialCoords, int deltaY){
+    private IEnumerator MovePiece(GameObject piece, int[] targetCoords, int deltaY){
         float targetY = 4.45f * -deltaY;
         Vector2 currentPos = piece.transform.localPosition;
         float totalTimeForMove = timeForPieceMovement;
@@ -337,7 +346,7 @@ public class GameController : MonoBehaviour
         playerController.canGrab = false;
         playerController.canPlace = false;
 
-        rowSpawning = true;
+        piecesMoving = true;
 
         for (int i = numIncrements; i > 0; i--){
             currentPos.y += posChangePerIncrement;
@@ -346,11 +355,11 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenIncrements);
         }
         piece.transform.localPosition = new Vector2(0.0f, 0.0f);
-        piece.transform.SetParent(boardArray[initialCoords[0], initialCoords[1] + deltaY].transform, false);
+        piece.transform.SetParent(boardArray[targetCoords[0], targetCoords[1]].transform, false);
 
         playerController.canGrab = true;
         playerController.canPlace = true;
 
-        rowSpawning = false;
+        piecesMoving = false;
     }
 }
