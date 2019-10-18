@@ -264,9 +264,9 @@ MonoBehaviour:
   piece: {fileID: 1865284874534520467, guid: 279de7247ef67a34794a96264fd96582, type: 3}
   matchSize: 5
   numInitialRows: 3
-  timeBetweenMatches: 0.2
+  timeBetweenMatches: 0.3
   timeBetweenRows: 6
-  timeForPieceMovement: 0.2
+  timeForPieceMovement: 0.3
 --- !u!4 &45008246
 Transform:
   m_ObjectHideFlags: 0
@@ -8061,6 +8061,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103474625482630800, guid: a3bf6c202789c584d8ac298900620847,
+        type: 3}
+      propertyPath: m_PixelPerfect
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3bf6c202789c584d8ac298900620847, type: 3}
