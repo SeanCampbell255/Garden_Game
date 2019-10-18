@@ -8,6 +8,13 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 	
 	public GameObject pauseMenuUI;
+    public GameObject player;
+
+    private PlayerController playerController;
+
+    private void Start(){
+        playerController = player.GetComponent<PlayerController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -31,7 +38,7 @@ public class PauseMenu : MonoBehaviour
 	   pauseMenuUI.SetActive(false);
 	   Time.timeScale = 1f;
 	   GameIsPaused = false;
-        GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+       playerController.enabled = true;
     }
    
    void Pause ()
@@ -39,15 +46,15 @@ public class PauseMenu : MonoBehaviour
 	   pauseMenuUI.SetActive(true);
 	   Time.timeScale = 0f;
 	   GameIsPaused = true;
-       GameObject.Find("Player").GetComponent<PlayerController>().enabled = false;
+       playerController.enabled = false;
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+        playerController.enabled = true;
         Debug.Log("Loading Menu.../Placeholder");
-        // SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu");
     }
 
     public void QuitGame()
