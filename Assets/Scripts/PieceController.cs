@@ -14,6 +14,8 @@ public class PieceController : MonoBehaviour
     public Sprite budSprite;
     public Sprite flowerSprite;
 
+    public bool beingGrabbed = false;
+
     private SpriteRenderer spriteRenderer;
 
     void Awake(){

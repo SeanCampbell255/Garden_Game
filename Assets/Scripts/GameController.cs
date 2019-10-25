@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
     public float timeBetweenRows;//ammount of time before new row sent
     public float timeForPieceMovement;
 
+    public UIManager ui;
+
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
@@ -96,6 +98,7 @@ public class GameController : MonoBehaviour
             //Update basketSize and basketType based on pickups and state of basketType
             //This discriminates between pieces of the current basketType and other types
             if (currentPiece != null){
+                
                 if(matchingCoordinates.Contains(new int[] {playerPosition, i })){
                     matchingCoordinates.Clear();
                 }
@@ -106,6 +109,7 @@ public class GameController : MonoBehaviour
                     break;
                 }
                 basketSize++;
+                currentPiece.beingGrabbed = true;
                 StartCoroutine(MovePiece(currentPiece.gameObject, new int[] { playerPosition, 11 }, 11 - i, true));
             }
         }
@@ -134,6 +138,9 @@ public class GameController : MonoBehaviour
 
                         i++;
                         basketSize--;
+
+                        if (i > 11)
+                            GameOver();
                     }
                     matchCheckQueue.Enqueue(tilePosition);
                     StartCoroutine(WaitThenExecuteMatch(timeBetweenMatches));
@@ -256,9 +263,15 @@ public class GameController : MonoBehaviour
             return null;
         }
     }
-    //Placeholder GameOver method
+    //GameOver method
     private void GameOver(){
-        print("Big RIP");
+        Time.timeScale = 0.0f;
+
+        System.Array.Clear(boardArray, 0, boardArray.Length);
+        matchCheckQueue.Clear();
+        matchingCoordinates.Clear();
+
+        ui.GameOver();
     }
     //Spawns rows of random pieces every timeBetweenRows seconds, also moves all existing pieces down a row
     private IEnumerator SpawnRows(){
@@ -275,8 +288,11 @@ public class GameController : MonoBehaviour
                     GameObject piece = GetPiece(new int[] {i, j});
 
                     if(piece != null){
-                        piecesToBeMoved.Add(piece);
-                        coordsToBeMoved.Add(new int[] {i, j});
+                        PieceController pieceController = piece.GetComponent<PieceController>();
+                        if (!pieceController.beingGrabbed){
+                            piecesToBeMoved.Add(piece);
+                            coordsToBeMoved.Add(new int[] { i, j });
+                        }
                     }
                 }
             }
@@ -341,6 +357,9 @@ public class GameController : MonoBehaviour
         float movementPerIncrement = initialY / numIncrements;
 
         piecesMoving = true;
+        Debug.Log(targetCoords[1]);
+        if (targetCoords[1] > 11)
+            GameOver();
 
         piece.transform.SetParent(boardArray[targetCoords[0], targetCoords[1]].transform, false);
         piece.transform.localPosition = new Vector2(0.0f, initialY);
