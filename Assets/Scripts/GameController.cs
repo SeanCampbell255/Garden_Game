@@ -106,7 +106,7 @@ public class GameController : MonoBehaviour
                     break;
                 }
                 basketSize++;
-                Destroy(currentPiece.gameObject);
+                StartCoroutine(MovePiece(currentPiece.gameObject, new int[] { playerPosition, 11 }, 11 - i, true));
             }
         }
         print(basketSize);
@@ -128,8 +128,10 @@ public class GameController : MonoBehaviour
                     while(basketSize > 0){
 
                         tilePosition = new int[] { playerPosition, i };
-                        Instantiate(piece, boardArray[tilePosition[0], tilePosition[1]].transform,
-                                    false).GetComponent<PieceController>().SetType(basketType);
+                        GameObject spawn = Instantiate(piece, boardArray[playerPosition, 11].transform, false);
+                        spawn.GetComponent<PieceController>().SetType(basketType);
+                        StartCoroutine(MovePiece(spawn, tilePosition, i - 11, false));
+
                         i++;
                         basketSize--;
                     }
@@ -209,7 +211,7 @@ public class GameController : MonoBehaviour
                     tilePos = FindHighestEmptyTile(botCoord[0]);
                     tile = boardArray[tilePos[0], tilePos[1]];
                     int distance = tilePos[1] - botCoord[1];
-                    StartCoroutine(MovePiece(botPiece, tilePos, distance));
+                    StartCoroutine(MovePiece(botPiece, tilePos, distance, false));
                     matchCheckQueue.Enqueue(tilePos);
 
                     botCoord[1]++;
@@ -281,7 +283,7 @@ public class GameController : MonoBehaviour
             //Moves all pieces down
             for (int i = 0; i < coordsToBeMoved.Count; i++){
                 int[] initialTile = coordsToBeMoved[i];
-                StartCoroutine(MovePiece(piecesToBeMoved[i], new int[] {initialTile[0], initialTile[1] + 1}, 1));
+                StartCoroutine(MovePiece(piecesToBeMoved[i], new int[] {initialTile[0], initialTile[1] + 1}, 1, false));
             }
             //Ensures ongoing matches retain their correct coordinates
             if(matchingCoordinates.Count > 0){
@@ -304,7 +306,7 @@ public class GameController : MonoBehaviour
                 GameObject currentPiece = Instantiate(piece, boardArray[i, 0].transform, false);
                 currentPiece.GetComponent<PieceController>().SetType(randType);
                 currentPiece.transform.localPosition = new Vector2(0.0f, 4.45f);
-                StartCoroutine(MovePiece(currentPiece, new int[] {i, 0}, 1));
+                StartCoroutine(MovePiece(currentPiece, new int[] {i, 0}, 1, false));
             }
         }
     }
@@ -332,7 +334,7 @@ public class GameController : MonoBehaviour
             checkingMatches = false;
         }
     }
-    private IEnumerator MovePiece(GameObject piece, int[] targetCoords, int columnShift){
+    private IEnumerator MovePiece(GameObject piece, int[] targetCoords, int columnShift, bool destroyAfter){
         float initialY = 4.45f * columnShift;
         int numIncrements = 10;
         float timePerIncrement = timeForPieceMovement / numIncrements;
@@ -351,6 +353,8 @@ public class GameController : MonoBehaviour
         piece.transform.localPosition = new Vector2(0.0f, 0.0f);
 
         piecesMoving = false;
-
+        if (destroyAfter){
+            Destroy(piece);
+        }
     }
 }
