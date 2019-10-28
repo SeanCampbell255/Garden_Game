@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public Text gameOverText;
+    public Text scoreText;
 
     public GameObject pauseMenuUI;
 
@@ -24,6 +25,10 @@ public class UIManager : MonoBehaviour
                 Pause();
             }
         }
+    }
+
+    public void SetScore(int score){
+        scoreText.text = "Score: " + score;
     }
 
     public void GameOver(){

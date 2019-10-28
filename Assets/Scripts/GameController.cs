@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
 
     public int matchSize;//minimum number of pieces needed to match
     public int numInitialRows;
+    public int score = 0;
+    public int matchScoreValue;
 
     public float timeBetweenMatches;
     public float timeBetweenRows;//ammount of time before new row sent
@@ -186,11 +188,14 @@ public class GameController : MonoBehaviour
         }
     }
     //Executes a match after match checking has processed all relevent pieces and there are more than the matchSize in the matchingCoordinates list
-    private void ExecuteMatch(int column){
+    private bool ExecuteMatch(int column){
         int topRow = 12;
+        bool matchPerformed = false;
         PieceType matchingType = GetPiece(matchingCoordinates[0]).GetComponent<PieceController>().type;
 
         if(matchingCoordinates.Count >= matchSize){
+            matchPerformed = true;
+
             foreach(int[] coord in matchingCoordinates){
                 if (topRow > coord[1])
                     topRow = coord[1];
@@ -228,6 +233,7 @@ public class GameController : MonoBehaviour
             }
         }
         matchingCoordinates.Clear();
+        return matchPerformed;
     }
     //Checks if passed coordinates are already in the matchingCoordinates list
     private bool DoCoordinatesMatch(int[] coords){
@@ -265,6 +271,7 @@ public class GameController : MonoBehaviour
     }
     //GameOver method
     private void GameOver(){
+        Debug.Log("game over");
         Time.timeScale = 0.0f;
 
         System.Array.Clear(boardArray, 0, boardArray.Length);
@@ -328,6 +335,9 @@ public class GameController : MonoBehaviour
     }
     //Waits "time" seconds before executing match so player can see what is happening
     private IEnumerator WaitThenExecuteMatch(float time){
+        int scoreMultiplier = 0;
+        bool matchMade;
+
         //Only proceeds if WaitThenExecuteMatch has not already been called
         if (!checkingMatches){
             while (matchCheckQueue.Count > 0){
@@ -339,14 +349,20 @@ public class GameController : MonoBehaviour
                 }
 
                 int[] tilePosition = matchCheckQueue.Dequeue();
-                Debug.Log(tilePosition[0] + " " + tilePosition[1]);
                 GameObject existingPiece = GetPiece(tilePosition);
 
                 if (existingPiece != null){
                     CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
-                    ExecuteMatch(tilePosition[0]);
+                    matchMade = ExecuteMatch(tilePosition[0]);
+
+                    if (matchMade){
+                        scoreMultiplier++;
+                        score += (scoreMultiplier * matchScoreValue);
+                        ui.SetScore(score);
+                    }
                 }
             }
+            Debug.Log("Checking matches set to false");
             checkingMatches = false;
         }
     }
@@ -357,7 +373,6 @@ public class GameController : MonoBehaviour
         float movementPerIncrement = initialY / numIncrements;
 
         piecesMoving = true;
-        Debug.Log(targetCoords[1]);
         if (targetCoords[1] > 11)
             GameOver();
 
