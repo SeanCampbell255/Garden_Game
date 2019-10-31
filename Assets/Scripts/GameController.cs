@@ -188,13 +188,13 @@ public class GameController : MonoBehaviour
         }
     }
     //Executes a match after match checking has processed all relevent pieces and there are more than the matchSize in the matchingCoordinates list
-    private bool ExecuteMatch(int column){
+    private int ExecuteMatch(int column){
         int topRow = 12;
-        bool matchPerformed = false;
+        int numPieces= 0;
         PieceType matchingType = GetPiece(matchingCoordinates[0]).GetComponent<PieceController>().type;
 
         if(matchingCoordinates.Count >= matchSize){
-            matchPerformed = true;
+            numPieces = matchingCoordinates.Count;
 
             foreach(int[] coord in matchingCoordinates){
                 if (topRow > coord[1])
@@ -233,7 +233,7 @@ public class GameController : MonoBehaviour
             }
         }
         matchingCoordinates.Clear();
-        return matchPerformed;
+        return numPieces;
     }
     //Checks if passed coordinates are already in the matchingCoordinates list
     private bool DoCoordinatesMatch(int[] coords){
@@ -336,7 +336,7 @@ public class GameController : MonoBehaviour
     //Waits "time" seconds before executing match so player can see what is happening
     private IEnumerator WaitThenExecuteMatch(float time){
         int scoreMultiplier = 0;
-        bool matchMade;
+        int numPieces;
 
         //Only proceeds if WaitThenExecuteMatch has not already been called
         if (!checkingMatches){
@@ -352,12 +352,14 @@ public class GameController : MonoBehaviour
                 GameObject existingPiece = GetPiece(tilePosition);
 
                 if (existingPiece != null){
-                    CheckForMatch(tilePosition, existingPiece.GetComponent<PieceController>().type);
-                    matchMade = ExecuteMatch(tilePosition[0]);
+                    PieceType type = existingPiece.GetComponent<PieceController>().type;
+                    CheckForMatch(tilePosition, type);
+                    numPieces = ExecuteMatch(tilePosition[0]);
 
-                    if (matchMade){
+                    if (numPieces > 0){
                         scoreMultiplier++;
-                        score += (scoreMultiplier * matchScoreValue);
+                        score += (scoreMultiplier * matchScoreValue * ((int)type + 1) * (numPieces % 5 + 1));
+                        Debug.Log("score: " + score);
                         ui.SetScore(score);
                     }
                 }
