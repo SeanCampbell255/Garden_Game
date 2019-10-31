@@ -10,15 +10,22 @@ public class PlayerController : MonoBehaviour{
     public bool canPlace;
 
     //Private Variables
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
+
     private int playerPosition = 3;
     private bool moveRight;
     private bool moveLeft;
     private bool grab;
     private bool place;
+    private bool isWalking;
 
     //Instantiation
     private void Start(){
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        animator = gameObject.GetComponent<Animator>();
 
+        animator.speed = 0;
     }
 
     void Update(){
@@ -37,11 +44,29 @@ public class PlayerController : MonoBehaviour{
         //Detects and applies player movement
         if (moveLeft && playerPosition > 0){
             playerPosition--;
-        }else if (moveRight && playerPosition < 6){
+            spriteRenderer.flipX = false;
+            if (!isWalking){ 
+                StartCoroutine(PlayAnimation("walk", 0.3333f, 1.0f, true));
+            }
+        }
+        else if (moveRight && playerPosition < 6){
             playerPosition++;
+            spriteRenderer.flipX = true;
+            if (!isWalking){ 
+                StartCoroutine(PlayAnimation("walk", 0.3333f, 1.0f, true));
+            }
         }
         gameController.UpdatePlayerPosition(playerPosition);
     }
 
-    
+    IEnumerator PlayAnimation(string state, float animTime, float speed, bool isWalk){
+        isWalking = true;
+
+        animator.Play(state);
+        animator.speed = speed;
+
+        yield return new WaitForSeconds(animTime);
+        animator.speed = 0;
+        isWalking = false;
+    }
 }
