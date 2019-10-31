@@ -358,7 +358,7 @@ public class GameController : MonoBehaviour
 
                     if (numPieces > 0){
                         scoreMultiplier++;
-                        score += (scoreMultiplier * matchScoreValue * ((int)type + 1) * (numPieces % 5 + 1));
+                        score += (scoreMultiplier * matchScoreValue * ((int)type + 1) * (numPieces - 4));
                         Debug.Log("score: " + score);
                         ui.SetScore(score);
                     }
