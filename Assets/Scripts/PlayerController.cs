@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour{
     //Public Variables
     public GameController gameController;
+    public SoundController sound;
 
     public bool canGrab;
     public bool canPlace;
@@ -46,17 +47,21 @@ public class PlayerController : MonoBehaviour{
             playerPosition--;
             spriteRenderer.flipX = false;
             if (!isWalking){ 
-                StartCoroutine(PlayAnimation("walk", 0.3333f, 1.0f, true));
+                StartCoroutine(PlayAnimation("walk", 0.4f, 1.0f, true));
+                sound.PlayWalk();
             }
+            gameController.UpdatePlayerPosition(playerPosition);
         }
         else if (moveRight && playerPosition < 6){
             playerPosition++;
             spriteRenderer.flipX = true;
             if (!isWalking){ 
-                StartCoroutine(PlayAnimation("walk", 0.3333f, 1.0f, true));
+                StartCoroutine(PlayAnimation("walk", 0.4f, 1.0f, true));
+                sound.PlayWalk();
             }
+            gameController.UpdatePlayerPosition(playerPosition);
         }
-        gameController.UpdatePlayerPosition(playerPosition);
+        
     }
 
     IEnumerator PlayAnimation(string state, float animTime, float speed, bool isWalk){

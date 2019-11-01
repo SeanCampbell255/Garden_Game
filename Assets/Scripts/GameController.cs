@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
 
     public UIManager ui;
 
+    public SoundController sound;
+
     //Private Variables
     private int boardWidth = 7;
     private int boardHeight = 12;
@@ -202,6 +204,8 @@ public class GameController : MonoBehaviour
 
         if(matchingCoordinates.Count >= matchSize){
             numPieces = matchingCoordinates.Count;
+
+            sound.PlayClear();
 
             foreach(int[] coord in matchingCoordinates){
                 if (topRow > coord[1])
