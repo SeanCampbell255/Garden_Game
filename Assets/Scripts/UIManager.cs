@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public Text gameOverText;
     public Text scoreText;
+    public Text basketText;
 
     public GameObject pauseMenuUI;
 
@@ -27,8 +28,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SetBasketText(int pieces){
+        basketText.text = "X " + pieces;
+    }
+
     public void SetScore(int score){
-        scoreText.text = "Score: " + score;
+        scoreText.text = "" + score;
     }
 
     public void GameOver(){

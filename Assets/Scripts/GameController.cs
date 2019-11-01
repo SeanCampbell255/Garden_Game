@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject piece;
 
+    public PieceController basketDisplay;
+
     public enum PieceType {Trash, Seed, Sprout, Bud, Flower };//PieceType is here because it has the most references in this script
 
     public int matchSize;//minimum number of pieces needed to match
@@ -112,6 +114,10 @@ public class GameController : MonoBehaviour
                 }
                 basketSize++;
                 currentPiece.beingGrabbed = true;
+
+                basketDisplay.SetType(currentPieceType);
+                ui.SetBasketText(basketSize);
+
                 StartCoroutine(MovePiece(currentPiece.gameObject, new int[] { playerPosition, 11 }, 11 - i, true));
             }
         }
@@ -146,7 +152,8 @@ public class GameController : MonoBehaviour
                     }
                     matchCheckQueue.Enqueue(tilePosition);
                     StartCoroutine(WaitThenExecuteMatch(timeBetweenMatches));
-                    
+
+                    ui.SetBasketText(0);
                     break;//Once we find a place to put pieces we're done with the loop
                 }
             }
