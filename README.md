@@ -5,7 +5,7 @@ puzzle game with an endless mode. Mainly, we've modeled our mechanics after a ga
 All assets, from sprites to scripts, are made by members of the team, whose roles can be found below.
 
 ## How to Play
-Simply [download the most recent release from here](https://github.com/SeanCampbell255/Garden_Game/releases) and unzip it, run *Garden_Game.exe* and play.
+Simply [download the most recent release here](https://github.com/SeanCampbell255/Garden_Game/releases) and unzip it, run *Garden_Game.exe* and play.
 Our controls all utilize the *arrow keys: left and right to move, down to pull all adjacent pieces of the same type in your column and up to 
 place those pieces you've picked up.* 5 or more pieces need to be adjacent to match, and they then create a new piece of a better-scoring type.
 
