@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        //Input control
         if (!inputBlocked)
         {
             float horInput = Input.GetAxis("Horizontal");
@@ -25,12 +26,24 @@ public class Player : MonoBehaviour
 
             if (horInput != 0.0f)
             {
-                if(horInput > 0.0f && coords[0] < 6)
+                if(horInput > 0.0f)
                 {
-                    Move(1);
-                } else if (coords[0] > 0)
+                    if (coords[0] < 6)
+                    {
+                        Move(1);
+                    }
+                }
+                else if (horInput < 0.0f)
                 {
-                    Move(-1);
+                    if(coords[0] == 0)
+                    {
+                        DumpTrash();
+                    }
+                    else
+                    {
+                        Move(-1);
+                    }
+                    
                 }
             } else if (Input.GetAxis("Vertical") != 0.0f)
             {
@@ -40,7 +53,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    //Takes direction on x-axis to move player
+    //If trash in basket, dump anim & update score & basket
+    private void DumpTrash()
+    {
+        //IMPLEMENT: Dumping trash and scoring
+    }
+
+    //Takes int direction on x-axis to move player
     private void Move(int direction)
     {
         inputBlocked = true;
@@ -48,7 +67,8 @@ public class Player : MonoBehaviour
         coords[0] += direction;
         game.AddToMatrix(this.gameObject, coords);
     }
-
+    
+    //Handles movement animation along with position and matrix updates
     private IEnumerator AnimateMove()
     {
         //IMPLEMENT: Play animation & update position
