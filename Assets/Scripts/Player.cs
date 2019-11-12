@@ -45,7 +45,8 @@ public class Player : MonoBehaviour
                     }
                     
                 }
-            } else if (Input.GetAxis("Vertical") != 0.0f)
+            }
+            else if (Input.GetAxis("Vertical") != 0.0f)
             {
 
 
@@ -63,15 +64,18 @@ public class Player : MonoBehaviour
     private void Move(int direction)
     {
         inputBlocked = true;
+        game.RemoveFromMatrix(coords);
 
         coords[0] += direction;
         game.AddToMatrix(this.gameObject, coords);
+        Animate();
     }
     
     //Handles movement animation along with position and matrix updates
-    private IEnumerator AnimateMove()
+    private IEnumerator Animate()
     {
         //IMPLEMENT: Play animation & update position
+        //Somehow allow anim to shift
         yield return new WaitForSeconds(moveTime);
     }
 }
