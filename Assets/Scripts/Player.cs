@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public Animator anim;
 
-    public float moveTime = 0.33f;
+    public float moveTime = 0.15f;
 
     //Private Instance Vars
     private int[] coords = { 3, 11 };
@@ -25,8 +25,15 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
-                Move(-1);
-            } else if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+                if(coords[0] == 0)
+                {
+                    DumpTrash();
+                }
+                else
+                {
+                    Move(-1);
+                }
+            } else if(coords[0] < 6 && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)))
             {
                 Move(1);
             }
