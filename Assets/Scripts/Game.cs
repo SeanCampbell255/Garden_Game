@@ -39,14 +39,30 @@ public class Game : MonoBehaviour
     public Vector3 FindPositionFromCoords(int[] coords)
     {
         float x = (coords[0] - 3) * 0.9f;
-        float y = 0.46f + (coords[1] - 5) * 0.9f;
+        float y = 0.46f + (5 - coords[1]) * 0.9f;
 
         return new Vector3(x, y, 0.0f);
     }
 
     private void InitializeBoard()
     {
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 7; j++)
+            {
+                Piece.Type rand = RandomPieceType();
 
+                Piece newPiece = Instantiate(piece).GetComponent<Piece>();
+                newPiece.SetType(rand, Piece.Trash.not);
+                newPiece.gameObject.transform.position = FindPositionFromCoords(new int[] { j, i });
+            }
+        }
+    }
+    private Piece.Type RandomPieceType()
+    {
+        int num = (int)(Random.value * 4);
+
+        return (Piece.Type)num;
     }
 
     private GameObject[] GetEntities(int[] xRange, int[] yRange)
