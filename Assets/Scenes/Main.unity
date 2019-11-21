@@ -1084,110 +1084,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 218463239}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &247747557
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 247747559}
-  - component: {fileID: 247747558}
-  - component: {fileID: 247747560}
-  m_Layer: 0
-  m_Name: Piece
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &247747558
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247747557}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 4059cc99ae447b14ebae238670ea6319, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 4.5, y: 4.5}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &247747559
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247747557}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.49, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &247747560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247747557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3ddeb43bdc52cb4584a9370ba7f5784, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  game: {fileID: 1358039782}
-  sprite: {fileID: 247747558}
-  trashSprites:
-  - {fileID: 21300000, guid: 4059cc99ae447b14ebae238670ea6319, type: 3}
-  - {fileID: 21300000, guid: c9160ccabd49ffe4195373fa2d80cd5c, type: 3}
-  - {fileID: 21300000, guid: 0ab948bcbf7a28f4ab851b353c061116, type: 3}
-  - {fileID: 21300000, guid: 6aae00f3dfd281b41b9d6fa5527940c3, type: 3}
-  seedSprite: {fileID: 21300000, guid: 90587ba2b92c66e449c82e69575d190b, type: 3}
-  sproutSprite: {fileID: 21300000, guid: 87ddf11285751844bacb9230d0e75883, type: 3}
-  budSprite: {fileID: 21300000, guid: f38a01741cfc98c4795803cbede0105b, type: 3}
-  flowerSprite: {fileID: 21300000, guid: 00b69325a3e24b64c82a7a7dc8ab17a4, type: 3}
-  moveTime: 0.33
 --- !u!1001 &260850291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4618,7 +4514,7 @@ GameObject:
   - component: {fileID: 1358039782}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4635,7 +4531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f717eb574c0ab5478ed53ad28ca284d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piece: {fileID: 247747557}
+  piece: {fileID: 0}
 --- !u!4 &1358039783
 Transform:
   m_ObjectHideFlags: 0
@@ -4648,7 +4544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1373598610
 PrefabInstance:

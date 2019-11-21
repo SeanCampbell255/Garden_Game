@@ -23,6 +23,12 @@ public class Piece : MonoBehaviour
 
     private int[] coords;
 
+    void Awake()
+    {
+        game = GameObject.FindGameObjectWithTag("GameController").GetComponent<Game>();
+        sprite = this.GetComponent<SpriteRenderer>();
+    }
+
     public void SetType(Type type, Trash trashType)
     {
         this.type = type;
