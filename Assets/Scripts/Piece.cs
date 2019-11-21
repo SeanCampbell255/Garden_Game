@@ -6,8 +6,15 @@ public class Piece : MonoBehaviour
 {
     //Public Instance Vars
     public enum Type {trash, seed, sprout, bud, flower};
+    public enum Trash {not, cigBox, bottle, paper, can };
 
     public Game game;
+    public SpriteRenderer sprite;
+    public Sprite[] trashSprites;
+    public Sprite seedSprite;
+    public Sprite sproutSprite;
+    public Sprite budSprite;
+    public Sprite flowerSprite;
 
     public float moveTime = 0.33f;
 
@@ -16,11 +23,46 @@ public class Piece : MonoBehaviour
 
     private int[] coords;
 
-    public void SetType(Type type)
+    public void SetType(Type type, Trash trashType)
     {
         this.type = type;
 
-        
+        switch (type)
+        {
+            case Type.trash:
+                switch (trashType)
+                {
+                    case Trash.not:
+                        int num = (int)Random.Range(0.0f, 3.9f);
+                        sprite.sprite = trashSprites[num];
+                        break;
+                    case Trash.cigBox:
+                        sprite.sprite = trashSprites[0];
+                        break;
+                    case Trash.bottle:
+                        sprite.sprite = trashSprites[1];
+                        break;
+                    case Trash.paper:
+                        sprite.sprite = trashSprites[2];
+                        break;
+                    case Trash.can:
+                        sprite.sprite = trashSprites[3];
+                        break;
+                }
+                break;
+            case Type.seed:
+                sprite.sprite = seedSprite;
+                break;
+            case Type.sprout:
+                sprite.sprite = sproutSprite;
+                break;
+            case Type.bud:
+                sprite.sprite = budSprite;
+                break;
+            case Type.flower:
+                sprite.sprite = flowerSprite;
+                break;
+        }
     }
 
     public Type GetType()

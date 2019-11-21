@@ -12,7 +12,7 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        
+        InitializeBoard();
     }
 
     //Adds GameObject entity to matrix at int[2] coords
@@ -42,6 +42,30 @@ public class Game : MonoBehaviour
         float y = 0.46f + (coords[1] - 5) * 0.9f;
 
         return new Vector3(x, y, 0.0f);
+    }
+
+    private void InitializeBoard()
+    {
+
+    }
+
+    private GameObject[] GetEntities(int[] xRange, int[] yRange)
+    {
+        GameObject[] entities = new GameObject[84];
+        int count = 0;
+
+        for(int i = xRange[0]; i <= xRange[1]; i++)
+        {
+            for(int j = yRange[0]; j <= yRange[1]; j++)
+            {
+                if (boardMatrix[i, j] != null)
+                {
+                    entities[i++] = boardMatrix[i, j];
+                }
+            }
+        }
+
+        return entities;
     }
 
     private IEnumerator RowSpawn()
