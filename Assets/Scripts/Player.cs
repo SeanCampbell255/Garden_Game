@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
                     
                 }
             }
-            else if (Input.GetAxis("Vertical") != 0.0f)
+            else if (vertInput != 0.0f)
             {
 
 
@@ -68,11 +68,11 @@ public class Player : MonoBehaviour
 
         coords[0] += direction;
         game.AddToMatrix(this.gameObject, coords);
-        Animate();
+        AnimateMove(direction);
     }
     
     //Handles movement animation along with position and matrix updates
-    private IEnumerator Animate()
+    private IEnumerator AnimateMove(int direction)
     {
         //IMPLEMENT: Play animation & update position
         //Somehow allow anim to shift
