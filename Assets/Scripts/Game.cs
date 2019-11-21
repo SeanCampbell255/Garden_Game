@@ -50,7 +50,7 @@ public class Game : MonoBehaviour
         {
             for (int j = 0; j < 3; j++)
             {
-
+                yield return new WaitForSeconds(420);
                 Vector3 position = FindPositionFromCoords(new int[] { i, j });
                 boardMatrix[i, j] = Instantiate(piece, position, Quaternion.identity);
             }

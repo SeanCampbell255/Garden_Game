@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     //Public Instance Vars
     public Game game;
 
-    public int moveTime;
+    public Animator anim;
+
+    public float moveTime = 0.33f;
 
     //Private Instance Vars
     private int[] coords = { 3, 11 };
@@ -21,35 +23,12 @@ public class Player : MonoBehaviour
         //Input control
         if (!inputBlocked)
         {
-            float horInput = Input.GetAxis("Horizontal");
-            float vertInput = Input.GetAxis("Vertical");
-
-            if (horInput != 0.0f)
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
-                if(horInput > 0.0f)
-                {
-                    if (coords[0] < 6)
-                    {
-                        Move(1);
-                    }
-                }
-                else if (horInput < 0.0f)
-                {
-                    if(coords[0] == 0)
-                    {
-                        DumpTrash();
-                    }
-                    else
-                    {
-                        Move(-1);
-                    }
-                    
-                }
-            }
-            else if (vertInput != 0.0f)
+                Move(-1);
+            } else if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
-
-
+                Move(1);
             }
         }
     }
@@ -68,14 +47,27 @@ public class Player : MonoBehaviour
 
         coords[0] += direction;
         game.AddToMatrix(this.gameObject, coords);
-        AnimateMove(direction);
+        StartCoroutine(AnimateMove(direction));
     }
     
     //Handles movement animation along with position and matrix updates
     private IEnumerator AnimateMove(int direction)
     {
-        //IMPLEMENT: Play animation & update position
-        //Somehow allow anim to shift
-        yield return new WaitForSeconds(moveTime);
+        float originX = gameObject.transform.position.x;
+        float originY = gameObject.transform.position.y;
+        float move = (0.9f * direction) / 8;
+        float interval = moveTime / 8;
+
+        anim.SetTrigger("Walk");
+
+        for(int i = 1; i <= 8; i++)
+        {
+            gameObject.transform.position = new Vector2(originX + (move * i), originY);
+            
+            yield return new WaitForSeconds(interval);
+        }
+
+        inputBlocked = false;
+
     }
 }
