@@ -72,21 +72,21 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public Type GetType()
+    public Type GetPieceType()
     {
         return this.type;
     }
 
     public void Move(int yChange)
     {
-        int vector = coords[1] - yChange;
+        int vector = -yChange;
 
         game.RemoveFromMatrix(coords);
         coords = new int[] {coords[0], coords[1] + yChange};
 
         game.AddToMatrix(this.gameObject, coords);
 
-        //Play anim & change position
+        StartCoroutine(MoveAnim(vector));
     }
 
     private IEnumerator MoveAnim(int vector)
