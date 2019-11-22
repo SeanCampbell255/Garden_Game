@@ -16,12 +16,13 @@ public class Piece : MonoBehaviour
     public Sprite budSprite;
     public Sprite flowerSprite;
 
+    public int[] coords = new int[2];
     public float moveTime = 0.33f;
 
     //Private Instance Vars
     private Type type;
 
-    private int[] coords;
+    
 
     void Awake()
     {
@@ -76,13 +77,14 @@ public class Piece : MonoBehaviour
         return this.type;
     }
 
-    public void Move(int[] targetCoords)
+    public void Move(int yChange)
     {
-        int vector = coords[1] - targetCoords[1];
+        int vector = coords[1] - yChange;
 
         game.RemoveFromMatrix(coords);
+        coords = new int[] {coords[0], coords[1] + yChange};
 
-        game.AddToMatrix(this.gameObject, targetCoords);
+        game.AddToMatrix(this.gameObject, coords);
 
         //Play anim & change position
     }

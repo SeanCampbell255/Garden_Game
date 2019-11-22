@@ -7,12 +7,15 @@ public class Game : MonoBehaviour
     //Public Instance Vars
     public GameObject piece;
 
+    public float spawnTime = 4.0f;
+
     //Private Instance Vars
     private GameObject[,] boardMatrix = new GameObject[7, 12];
 
     private void Start()
     {
         InitializeBoard();
+        StartCoroutine(RowSpawn());
     }
 
     //Adds GameObject entity to matrix at int[2] coords
@@ -52,9 +55,11 @@ public class Game : MonoBehaviour
             {
                 Piece.Type rand = RandomPieceType();
 
-                Piece newPiece = Instantiate(piece).GetComponent<Piece>();
+                Piece newPiece = Instantiate(piece, FindPositionFromCoords(new int[] {j, i}),
+                                             Quaternion.identity).GetComponent<Piece>();
+                newPiece.coords = new int[] {j, i};
+                boardMatrix[j, i] = newPiece.gameObject;
                 newPiece.SetType(rand, Piece.Trash.not);
-                newPiece.gameObject.transform.position = FindPositionFromCoords(new int[] { j, i });
             }
         }
     }
@@ -76,7 +81,7 @@ public class Game : MonoBehaviour
             {
                 if (boardMatrix[i, j] != null)
                 {
-                    entities[i++] = boardMatrix[i, j];
+                    entities[count] = boardMatrix[i, j];
                 }
             }
         }
@@ -86,13 +91,30 @@ public class Game : MonoBehaviour
 
     private IEnumerator RowSpawn()
     {
-        for (int i = 0; i < 7; i++)
+        while (true)
         {
-            for (int j = 0; j < 3; j++)
+            yield return new WaitForSeconds(spawnTime);
+
+            int count = 0;
+            foreach (GameObject obj in boardMatrix)
             {
-                yield return new WaitForSeconds(420);
-                Vector3 position = FindPositionFromCoords(new int[] { i, j });
-                boardMatrix[i, j] = Instantiate(piece, position, Quaternion.identity);
+                
+                if (obj != null && obj.tag != "Player")
+                {
+                    Piece movingPiece = obj.GetComponent<Piece>();
+                    
+                    movingPiece.Move(1);
+                }
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                Vector3 position = FindPositionFromCoords(new int[] { i, 0 });
+                Piece.Type rand = RandomPieceType();
+
+                boardMatrix[i, 0] = Instantiate(piece, position, Quaternion.identity);
+                boardMatrix[i, 0].GetComponent<Piece>().SetType(rand, Piece.Trash.not);
+
             }
         }
     }

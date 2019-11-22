@@ -1841,7 +1841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 1358039782}
   anim: {fileID: 490088076}
-  moveTime: 0.33
+  moveTime: 0.15
 --- !u!1001 &508893877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4531,7 +4531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f717eb574c0ab5478ed53ad28ca284d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piece: {fileID: 0}
+  piece: {fileID: 2283198232579777776, guid: 1ad312f34bd34b84a88917f4919f2b49, type: 3}
+  spawnTime: 3
 --- !u!4 &1358039783
 Transform:
   m_ObjectHideFlags: 0
