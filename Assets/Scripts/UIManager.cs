@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public Text gameOverText;
     public Text scoreText;
     public Text basketText;
+    public Text comboText;
 
     public GameObject pauseMenuUI;
 
@@ -28,8 +29,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SetCombo(int combo)
+    {
+        comboText.text = "Combo: " + combo;
+    }
+
     public void SetBasketText(int pieces){
-        basketText.text = "X " + pieces;
+        basketText.text = "" + pieces + " X";
     }
 
     public void SetScore(int score){

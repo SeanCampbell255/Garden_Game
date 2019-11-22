@@ -371,12 +371,14 @@ public class GameController : MonoBehaviour
                         scoreMultiplier++;
                         score += (scoreMultiplier * matchScoreValue * ((int)type + 1) * (numPieces - 4));
                         Debug.Log("score: " + score);
+                        ui.SetCombo(scoreMultiplier);
                         ui.SetScore(score);
                     }
                 }
             }
             Debug.Log("Checking matches set to false");
             checkingMatches = false;
+            ui.SetCombo(0);
         }
     }
     private IEnumerator MovePiece(GameObject piece, int[] targetCoords, int columnShift, bool destroyAfter){
