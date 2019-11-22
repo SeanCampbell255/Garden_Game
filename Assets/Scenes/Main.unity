@@ -8492,6 +8492,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9e03b26fad5994a8d551b51ead7269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &2041965775 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 440406390498229278, guid: d862a52f9b1becc46a1704d4cebab391,
+    type: 3}
+  m_PrefabInstance: {fileID: 5447280879473021409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &2041965776
 Animator:
   serializedVersion: 3
@@ -9172,6 +9178,16 @@ PrefabInstance:
       propertyPath: sound
       value: 
       objectReference: {fileID: 1693275023}
+    - target: {fileID: 3779554066484172948, guid: d862a52f9b1becc46a1704d4cebab391,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2041965775}
+    - target: {fileID: 3779554066484172948, guid: d862a52f9b1becc46a1704d4cebab391,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2041965776}
     - target: {fileID: 5674431725370428204, guid: d862a52f9b1becc46a1704d4cebab391,
         type: 3}
       propertyPath: m_LocalPosition.x
