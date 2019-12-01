@@ -6,13 +6,14 @@ public class PlayerController : MonoBehaviour{
     //Public Variables
     public GameController gameController;
     public SoundController sound;
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
 
     public bool canGrab;
     public bool canPlace;
 
     //Private Variables
-    private SpriteRenderer spriteRenderer;
-    private Animator animator;
+    
 
     private int playerPosition = 3;
     private bool moveRight;
@@ -24,9 +25,6 @@ public class PlayerController : MonoBehaviour{
     //Instantiation
     private void Start(){
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        animator = gameObject.GetComponent<Animator>();
-
-        animator.speed = 0;
     }
 
     void Update(){
@@ -38,8 +36,11 @@ public class PlayerController : MonoBehaviour{
         //Detects a grab or place, makes it so you can't do both same frame
         if (grab && canGrab){
             gameController.Grab(playerPosition);
-        }else if (place && canPlace){
+            StartCoroutine(PlayAnimation("Grabbing", 0.306f));
+        }
+        else if (place && canPlace){
             gameController.Place(playerPosition);
+            StartCoroutine(PlayAnimation("Pushing", 0.556f));
         }
 
         //Detects and applies player movement
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour{
             playerPosition--;
             spriteRenderer.flipX = false;
             if (!isWalking){ 
-                StartCoroutine(PlayAnimation("walk", 0.4f, 1.0f, true));
+                StartCoroutine(PlayAnimation("Walking", 0.167f));
                 sound.PlayWalk();
             }
             gameController.UpdatePlayerPosition(playerPosition);
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour{
             playerPosition++;
             spriteRenderer.flipX = true;
             if (!isWalking){ 
-                StartCoroutine(PlayAnimation("walk", 0.4f, 1.0f, true));
+                StartCoroutine(PlayAnimation("Walking", 0.167f));
                 sound.PlayWalk();
             }
             gameController.UpdatePlayerPosition(playerPosition);
@@ -64,14 +65,20 @@ public class PlayerController : MonoBehaviour{
         
     }
 
-    IEnumerator PlayAnimation(string state, float animTime, float speed, bool isWalk){
-        isWalking = true;
-
-        animator.Play(state);
-        animator.speed = speed;
+    IEnumerator PlayAnimation(string condition, float animTime){
+        
+        if (condition == "Walking")
+        {
+            isWalking = true;
+        }
+        animator.SetBool(condition, true);
 
         yield return new WaitForSeconds(animTime);
-        animator.speed = 0;
-        isWalking = false;
+
+        animator.SetBool(condition, false);
+        if (condition == "Walking")
+        {
+            isWalking = false;
+        }
     }
 }
