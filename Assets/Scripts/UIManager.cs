@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public Text basketText;
     public Text comboText;
+    public Text highScoreText;
 
     public GameObject pauseMenuUI;
 
@@ -27,6 +28,11 @@ public class UIManager : MonoBehaviour
                 Pause();
             }
         }
+    }
+
+    public void SetHighScore(int highScore)
+    {
+        highScoreText.text = "High Score: " + highScore;
     }
 
     public void SetCombo(int combo)

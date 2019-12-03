@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     private int boardWidth = 7;
     private int boardHeight = 12;
     private int basketSize = 0;
+    private int highScore;
 
     private bool checkingMatches = false;
     private bool piecesMoving = false;
@@ -45,9 +46,11 @@ public class GameController : MonoBehaviour
     // Instantiate
     void Start(){
         GameObject currentRow;
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        ui.SetHighScore(highScore);
 
         //Creates an array filled with tile game objects
-        for(int i = 0; i < boardHeight; i++){
+        for (int i = 0; i < boardHeight; i++){
             currentRow = board.transform.GetChild(i).gameObject;
 
             for(int j = 0; j < boardWidth; j++){
@@ -284,6 +287,12 @@ public class GameController : MonoBehaviour
     private void GameOver(){
         Debug.Log("game over");
         Time.timeScale = 0.0f;
+        if(score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            ui.SetHighScore(highScore);
+        }
 
         System.Array.Clear(boardArray, 0, boardArray.Length);
         matchCheckQueue.Clear();
