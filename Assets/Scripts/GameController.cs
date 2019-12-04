@@ -307,6 +307,8 @@ public class GameController : MonoBehaviour
 
         while (true){
             yield return new WaitForSeconds(timeBetweenRows);
+            timeBetweenRows -= 0.2f;
+            Debug.Log(timeBetweenRows);
 
             //Adding all pieces and coordinates that contain pieces to lists
             for(int i = 0; i < 7; i++){

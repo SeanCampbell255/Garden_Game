@@ -262,7 +262,7 @@ MonoBehaviour:
   score: 0
   matchScoreValue: 5
   timeBetweenMatches: 0.25
-  timeBetweenRows: 6
+  timeBetweenRows: 8
   timeForPieceMovement: 0.15
   ui: {fileID: 1455950113}
   sound: {fileID: 1693275023}
