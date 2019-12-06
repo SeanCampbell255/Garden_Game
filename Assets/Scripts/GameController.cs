@@ -237,8 +237,6 @@ public class GameController : MonoBehaviour
         if(matchingCoordinates.Count >= matchSize){
             numPieces = matchingCoordinates.Count;
 
-            sound.PlayClear();
-
             foreach(int[] coord in matchingCoordinates){
                 if (topRow > coord[1])
                     topRow = coord[1];
@@ -320,7 +318,7 @@ public class GameController : MonoBehaviour
         {
             highScore = score;
             PlayerPrefs.SetInt("HighScore", highScore);
-            ui.SetHighScore(highScore);
+            ui.SetNewHighScore(highScore);
         }
 
         sound.StopMusic();

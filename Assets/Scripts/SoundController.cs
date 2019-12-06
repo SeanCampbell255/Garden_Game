@@ -6,12 +6,18 @@ public class SoundController : MonoBehaviour
 {
     public AudioSource music;
     public AudioSource walk;
-    public AudioSource clear;
     public AudioSource gameover;
     public AudioSource pull;
     public AudioSource push;
     public AudioSource bonk;
     public AudioSource select;
+
+    public AudioSource[] comboArray;
+
+    public void PlayCombo(int comboNum)
+    {
+        comboArray[comboNum].Play();
+    }
 
     public void PlayPull()
     {
@@ -40,10 +46,6 @@ public class SoundController : MonoBehaviour
 
     public void PlayWalk(){
         walk.Play();
-    }
-
-    public void PlayClear(){
-        clear.Play();
     }
 
     public void StopMusic()

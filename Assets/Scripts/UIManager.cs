@@ -10,10 +10,13 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public Text basketText;
     public Text highScoreText;
+    public Text newHighScoreText;
 
     public Image comboNum;
 
     public GameObject pauseMenuUI;
+    public GameObject[] disableOnNewHighScore;
+    public GameObject highScoreBanner;
 
     public Sprite[] comboSprites;
 
@@ -40,6 +43,20 @@ public class UIManager : MonoBehaviour
         highScoreText.text = "High Score: " + highScore;
     }
 
+    public void SetNewHighScore(int highScore)
+    {
+        highScoreText.text = "High Score: " + highScore;
+        highScoreBanner.SetActive(true);
+
+        newHighScoreText.gameObject.SetActive(true);
+        newHighScoreText.text =  "" + highScore;
+
+        foreach(GameObject obj in disableOnNewHighScore)
+        {
+            obj.SetActive(false);
+        }
+    }
+
     public void SetCombo(int combo)
     {
         if(combo == 0)
@@ -56,21 +73,27 @@ public class UIManager : MonoBehaviour
                 break;
             case 1:
                 comboNum.sprite = comboSprites[0];
+                sound.PlayCombo(1);
                 break;
             case 2:
                 comboNum.sprite = comboSprites[1];
+                sound.PlayCombo(2);
                 break;
             case 3:
                 comboNum.sprite = comboSprites[2];
+                sound.PlayCombo(3);
                 break;
             case 4:
                 comboNum.sprite = comboSprites[3];
+                sound.PlayCombo(4);
                 break;
             case 5:
                 comboNum.sprite = comboSprites[4];
+                sound.PlayCombo(4);
                 break;
             case 6:
                 comboNum.sprite = comboSprites[5];
+                sound.PlayCombo(4);
                 break;
         }
     }
