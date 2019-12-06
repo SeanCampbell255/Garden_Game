@@ -9,10 +9,13 @@ public class UIManager : MonoBehaviour
     public Text gameOverText;
     public Text scoreText;
     public Text basketText;
-    public Text comboText;
     public Text highScoreText;
 
+    public Image comboNum;
+
     public GameObject pauseMenuUI;
+
+    public Sprite[] comboSprites;
 
     public PlayerController playerController;
     public SoundController sound;
@@ -39,7 +42,37 @@ public class UIManager : MonoBehaviour
 
     public void SetCombo(int combo)
     {
-        comboText.text = "Combo: " + combo;
+        if(combo == 0)
+        {
+            comboNum.gameObject.SetActive(false);
+        } else
+        {
+            comboNum.gameObject.SetActive(true);
+        }
+        switch (combo)
+        {
+            case 0:
+                comboNum.sprite = null;
+                break;
+            case 1:
+                comboNum.sprite = comboSprites[0];
+                break;
+            case 2:
+                comboNum.sprite = comboSprites[1];
+                break;
+            case 3:
+                comboNum.sprite = comboSprites[2];
+                break;
+            case 4:
+                comboNum.sprite = comboSprites[3];
+                break;
+            case 5:
+                comboNum.sprite = comboSprites[4];
+                break;
+            case 6:
+                comboNum.sprite = comboSprites[5];
+                break;
+        }
     }
 
     public void SetBasketText(int pieces){
