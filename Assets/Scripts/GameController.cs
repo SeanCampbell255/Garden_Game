@@ -323,6 +323,9 @@ public class GameController : MonoBehaviour
             ui.SetHighScore(highScore);
         }
 
+        sound.StopMusic();
+        sound.PlayGameover();
+
         System.Array.Clear(boardArray, 0, boardArray.Length);
         matchCheckQueue.Clear();
         matchingCoordinates.Clear();
