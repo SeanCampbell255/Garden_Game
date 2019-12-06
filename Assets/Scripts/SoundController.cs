@@ -8,6 +8,30 @@ public class SoundController : MonoBehaviour
     public AudioSource walk;
     public AudioSource clear;
     public AudioSource gameover;
+    public AudioSource pull;
+    public AudioSource push;
+    public AudioSource bonk;
+    public AudioSource select;
+
+    public void PlayPull()
+    {
+        pull.Play();
+    }
+
+    public void PlayPush()
+    {
+        push.Play();
+    }
+
+    public void PlayBonk()
+    {
+        bonk.Play();
+    }
+
+    public void PlaySelect()
+    {
+        select.Play();
+    }
 
     public void PlayGameover()
     {

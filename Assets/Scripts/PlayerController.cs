@@ -38,11 +38,13 @@ public class PlayerController : MonoBehaviour{
             gameController.Grab(playerPosition);
             StartCoroutine(PlayAnimation("Grabbing", 0.306f));
             DisplayOutline();
+            sound.PlayPull();
         }
         else if (place && canPlace){
             gameController.Place(playerPosition);
             StartCoroutine(PlayAnimation("Pushing", 0.556f));
             DisplayOutline();
+            sound.PlayPush();
         }
 
         //Detects and applies player movement

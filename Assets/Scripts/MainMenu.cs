@@ -5,22 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
     private void Start(){
         StartCoroutine(waitForSplashAnimation());
     }
 
     public void Play(){
+        Debug.Log("hi");
+        this.GetComponent<AudioSource>().Play();
         Debug.Log("clicked");
         SceneManager.LoadScene("Main");
     }
 
     public void Quit(){
+        this.GetComponent<AudioSource>().Play();
         Application.Quit();
     }
 
     private IEnumerator waitForSplashAnimation(){
         yield return new WaitForSeconds(1.0f);
 
-        this.transform.GetChild(0).gameObject.SetActive(true);
+        for(int i = 0; i < 4; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(true);
+        }
     }
 }

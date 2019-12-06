@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenuUI;
 
     public PlayerController playerController;
+    public SoundController sound;
 
     private bool gameIsPaused = false;
     private bool canUnpause = true;
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)){
             if (gameIsPaused){
                 Resume();
+                sound.PlaySelect();
             }
             else{
                 Pause();
@@ -68,6 +70,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
         gameIsPaused = true;
         playerController.enabled = false;
+        sound.PlaySelect();
     }
 
     public void LoadMenu(){
@@ -75,15 +78,18 @@ public class UIManager : MonoBehaviour
         playerController.enabled = true;
         Debug.Log("Loading Menu.../Placeholder");
         SceneManager.LoadScene("Menu");
+        sound.PlayBonk();
     }
 
     public void QuitGame(){
         Debug.Log("Quitting Game.../Placeholder");
+        sound.PlayBonk();
         Application.Quit();
     }
 
     public void Retry(){
         Time.timeScale = 1f;
+        sound.PlayBonk();
         SceneManager.LoadScene("Main");
     }
 }
