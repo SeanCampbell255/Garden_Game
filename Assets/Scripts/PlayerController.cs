@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour{
     //Private Variables
     
 
-    private int playerPosition = 3;
+    public int playerPosition = 3;
     private bool moveRight;
     private bool moveLeft;
     private bool grab;
@@ -37,10 +37,12 @@ public class PlayerController : MonoBehaviour{
         if (grab && canGrab){
             gameController.Grab(playerPosition);
             StartCoroutine(PlayAnimation("Grabbing", 0.306f));
+            DisplayOutline();
         }
         else if (place && canPlace){
             gameController.Place(playerPosition);
             StartCoroutine(PlayAnimation("Pushing", 0.556f));
+            DisplayOutline();
         }
 
         //Detects and applies player movement
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour{
                 sound.PlayWalk();
             }
             gameController.UpdatePlayerPosition(playerPosition);
+            DisplayOutline();
         }
         else if (moveRight && playerPosition < 6){
             playerPosition++;
@@ -61,8 +64,14 @@ public class PlayerController : MonoBehaviour{
                 sound.PlayWalk();
             }
             gameController.UpdatePlayerPosition(playerPosition);
+            DisplayOutline();
         }
         
+    }
+
+    private void DisplayOutline()
+    {
+        gameController.DisplayOutline(playerPosition);
     }
 
     IEnumerator PlayAnimation(string condition, float animTime){

@@ -256,6 +256,7 @@ MonoBehaviour:
   board: {fileID: 1064441864}
   player: {fileID: 2041965772}
   piece: {fileID: 1865284874534520467, guid: 279de7247ef67a34794a96264fd96582, type: 3}
+  outline: {fileID: 462504286856663485, guid: 8c23c1cb955f36e4b90cfee542f2c584, type: 3}
   basketDisplay: {fileID: 1244908888}
   matchSize: 5
   numInitialRows: 3

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour
     public GameObject board;
     public GameObject player;
     public GameObject piece;
+    public GameObject outline;
 
     public PieceController basketDisplay;
 
@@ -36,8 +38,8 @@ public class GameController : MonoBehaviour
     private bool piecesMoving = false;
 
     private PieceType basketType;
-    
 
+    private GameObject[] outlineArray = new GameObject[30];
     private GameObject[,] boardArray = new GameObject[7, 12];
     private List<int[]> matchingCoordinates = new List<int[]>();
     private Queue<int[]> matchCheckQueue = new Queue<int[]>(); 
@@ -74,7 +76,7 @@ public class GameController : MonoBehaviour
     }
     //Returns a random PieceType
     private PieceType RandomPieceType(){
-        int num = (int)(Random.value * 4);
+        int num = (int)(UnityEngine.Random.value * 4);
 
         return (PieceType)num;
     } 
@@ -84,6 +86,33 @@ public class GameController : MonoBehaviour
         GameObject targetTile = boardArray[playerPosition, 11];
 
         player.transform.SetParent(targetTile.transform, false);
+    }
+
+    public void DisplayOutline(int column)
+    {
+        //Clears old outline
+        foreach (GameObject obj in outlineArray)
+        {
+            Destroy(obj);
+        }
+        Array.Clear(outlineArray, 0, outlineArray.Length);
+
+
+        int[] topTile = FindHighestEmptyTile(column);
+        float x = (column - 3) * 0.9f;
+        float y;
+
+        for (int i = 0; i < basketSize; i++)
+        {
+            y = 0.46f + (4.54f - (topTile[1] + i) * 0.9f);
+            GameObject newOutline = Instantiate(outline, new Vector3(x, y, 0.0f), Quaternion.identity);
+            outlineArray[i] = newOutline;
+        }
+    }
+
+    public void RemoveOutlines()
+    {
+        
     }
 
     //Grabs all pieces of same type adjacent to lowest piece in column
@@ -353,6 +382,7 @@ public class GameController : MonoBehaviour
                 currentPiece.transform.localPosition = new Vector2(0.0f, 4.45f);
                 StartCoroutine(MovePiece(currentPiece, new int[] {i, 0}, 1, false));
             }
+            DisplayOutline(player.GetComponent<PlayerController>().playerPosition);
         }
     }
     //Waits "time" seconds before executing match so player can see what is happening
@@ -386,6 +416,7 @@ public class GameController : MonoBehaviour
                         ui.SetScore(score);
                     }
                 }
+                DisplayOutline(player.GetComponent<PlayerController>().playerPosition);
             }
             Debug.Log("Checking matches set to false");
             checkingMatches = false;
